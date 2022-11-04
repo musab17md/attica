@@ -1,8 +1,9 @@
 import 'dart:convert';
 
 import 'package:ecom/core/api_client.dart';
+import 'package:ecom/provider/AddProductForm.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 
 import 'navbar.dart';
 
@@ -29,6 +30,7 @@ const List<String> ornaments = <String>[
 ];
 
 class _AddProductState extends State<AddProduct> {
+
   String metalValue = metalType.first;
   String ornamentValue = ornaments.first;
   String purityValue = "";
@@ -38,7 +40,8 @@ class _AddProductState extends State<AddProduct> {
   TextEditingController makingCValue = TextEditingController();
   TextEditingController wastageCValue = TextEditingController();
   TextEditingController stoneCValue = TextEditingController();
-  TextEditingController netWValue = TextEditingController();
+  // TextEditingController netWValue = TextEditingController();
+  int netWValue = 0;
   TextEditingController netAValue = TextEditingController();
   TextEditingController totalAValue = TextEditingController();
   TextEditingController validDValue = TextEditingController();
@@ -51,6 +54,14 @@ class _AddProductState extends State<AddProduct> {
   var token = '68c2a7cc5e09dd2a179438f50d1fd0350096b08b';
 
   double paddingHeight = 20.0;
+
+  void updateProvider(myContext){
+    debugPrint("updateProvider");
+    debugPrint(grossWValue.text);
+    debugPrint(stoneWValue.text);
+    myContext.read<UpdateNetAmount>().setGrossW(grossWValue.text);
+    myContext.read<UpdateNetAmount>().setStoneW(stoneWValue.text);
+  }
 
   Future createProduct(BuildContext context, response) async {
 
@@ -87,7 +98,7 @@ class _AddProductState extends State<AddProduct> {
                 ElevatedButton(
                     onPressed: () {
                       Navigator.pop(context);
-
+                      clearController();
                     },
                     child: const Text("Add New")),
               ],
@@ -115,6 +126,7 @@ class _AddProductState extends State<AddProduct> {
   }
 
 
+
   void clearController(){
     setState((){
       metalValue = metalType.first;
@@ -127,7 +139,7 @@ class _AddProductState extends State<AddProduct> {
     makingCValue.clear();
     wastageCValue.clear();
     stoneCValue.clear();
-    netWValue.clear();
+    // netWValue.clear();
     netAValue.clear();
     totalAValue.clear();
     validDValue.clear();
@@ -158,48 +170,54 @@ class _AddProductState extends State<AddProduct> {
               SizedBox(height: paddingHeight),
               buildPurityForm(),
               SizedBox(height: paddingHeight),
-              TextFormWidget(myController: rateValue, name: "Rate Value"),
+              TextFormWidget(myController: rateValue, name: "Rate Value", myContext:context),
               SizedBox(height: paddingHeight),
-              TextFormWidget(myController: grossWValue, name: "Gross W"),
+              TextFormWidget(myController: grossWValue, name: "Gross W", myContext:context),
               SizedBox(height: paddingHeight),
-              TextFormWidget(myController: stoneWValue, name: "Stone V"),
+              TextFormWidget(myController: stoneWValue, name: "Stone W", myContext:context),
               SizedBox(height: paddingHeight),
-              TextFormWidget(myController: makingCValue, name: "Making C"),
+              TextFormWidget(myController: makingCValue, name: "Making C", myContext:context),
               SizedBox(height: paddingHeight),
-              TextFormWidget(myController: wastageCValue, name: "Wastage C"),
+              TextFormWidget(myController: wastageCValue, name: "Wastage C", myContext:context),
               SizedBox(height: paddingHeight),
-              TextFormWidget(myController: stoneCValue, name: "Stone C"),
+              TextFormWidget(myController: stoneCValue, name: "Stone C", myContext:context),
               SizedBox(height: paddingHeight),
-              TextFormWidget(myController: netWValue, name: "Net W"),
+              // TextFormWidget(myController: netWValue, name: "Net W"),
+              Text('${context.watch<UpdateNetAmount>().netW}'.toString()),
               SizedBox(height: paddingHeight),
-              TextFormWidget(myController: netAValue, name: "Net A"),
+              TextFormWidget(myController: netAValue, name: "Net A", myContext:context),
               SizedBox(height: paddingHeight),
-              TextFormWidget(myController: totalAValue, name: "Total A"),
+              TextFormWidget(myController: totalAValue, name: "Total A", myContext:context),
               SizedBox(height: paddingHeight),
-              TextFormWidget(myController: validDValue, name: "Valid D"),
+              TextFormWidget(myController: validDValue, name: "Valid D", myContext:context),
               SizedBox(height: paddingHeight),
-              TextFormWidget(myController: qtyValue, name: "Qty"),
+              TextFormWidget(myController: qtyValue, name: "Qty", myContext:context),
               SizedBox(height: paddingHeight),
-              TextFormWidget(myController: vendorValue, name: "Vendor"),
+              TextFormWidget(myController: vendorValue, name: "Vendor", myContext:context),
               SizedBox(height: paddingHeight),
-              TextFormWidget(myController: submitDateValue, name: "Submit Date"),
+              TextFormWidget(myController: submitDateValue, name: "Submit Date", myContext:context),
               SizedBox(height: paddingHeight),
-              TextFormWidget(myController: imageValue, name: "Image"),
+              Row(
+                children: [
+                  const Text("Image:"),
+                  ElevatedButton(onPressed: (){
+                  }, child: const Text("Select Image"),),
+                ],
+              ),
               SizedBox(height: paddingHeight),
-              TextFormWidget(myController: stoneWValue, name: "Stone W"),
+              TextFormWidget(myController: statusValue, name: "Stone W", myContext:context),
               SizedBox(height: paddingHeight),
 
-              // buildSubmitButton(),
+              buildSubmitButton(),
               ElevatedButton(onPressed: (){
                 List myList = [
                   metalValue,ornamentValue,purityValue,rateValue.text,grossWValue.text,stoneWValue.text,makingCValue.text,wastageCValue.text,stoneCValue.text,
-                  netWValue.text,netAValue.text,totalAValue.text,validDValue.text,qtyValue.text,vendorValue.text,submitDateValue.text,imageValue.text,stoneWValue.text];
+                  netWValue.toString(),netAValue.text,totalAValue.text,validDValue.text,qtyValue.text,vendorValue.text,submitDateValue.text,imageValue.text,stoneWValue.text];
                 ApiClient().postData(myList).then((value) {
                   debugPrint(value.toString());
                   debugPrint("value.toString()");
                   createProduct(context, value);
                 });
-
               }, child: const Text("Send Data")),
               ElevatedButton(onPressed: (){
                 clearController();
@@ -327,7 +345,7 @@ class _AddProductState extends State<AddProduct> {
         // createProduct(context);
 
       },
-      child: const Text("Submit"),
+      child: const Text("Print"),
     );
   }
 
@@ -365,18 +383,24 @@ class _AddProductState extends State<AddProduct> {
 //   });
 // }
 
-class TextFormWidget extends StatelessWidget {
+class TextFormWidget extends StatefulWidget {
   final TextEditingController myController;
   final String name;
-  const TextFormWidget({Key? key, required this.myController, required this.name}) : super(key: key);
+  final BuildContext myContext;
+  const TextFormWidget({Key? key, required this.myController, required this.name, required this.myContext}) : super(key: key);
 
+  @override
+  State<TextFormWidget> createState() => _TextFormWidgetState();
+}
+
+class _TextFormWidgetState extends State<TextFormWidget> {
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          name,
+          widget.name,
           style: const TextStyle(fontSize: 20),
         ),
         const SizedBox(
@@ -384,15 +408,28 @@ class TextFormWidget extends StatelessWidget {
         ),
         TextFormField(
           enableInteractiveSelection: false,
-          controller: myController,
+          controller: widget.myController,
           decoration: const InputDecoration(
             border: OutlineInputBorder(),
           ),
-          keyboardType: TextInputType.text,
+          keyboardType: TextInputType.number,
           textInputAction: TextInputAction.next,
+          onChanged: (text){
+            debugPrint("changed");
+            debugPrint(text);
+
+            _AddProductState().updateProvider(widget.myContext);
+
+            debugPrint("Update prov");
+            context.read<UpdateNetAmount>().calculateNetWeight();
+
+
+          },
 
         ),
       ],
     );
   }
 }
+
+

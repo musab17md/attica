@@ -44,6 +44,7 @@ class _TestHomeState extends State<TestHome> {
       ),
     );
   }
+
   Widget buildShopping() {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -69,21 +70,36 @@ class _TestHomeState extends State<TestHome> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: const [
-                    SizedBox(height: 50,),
-                    Center(
-                      child: Text("916 DIGITAL GOLD", style: TextStyle(fontSize: 30.00, color: Colors.red, fontStyle: FontStyle.italic)),
+                    SizedBox(
+                      height: 50,
                     ),
-                    SizedBox(height: 30,),
                     Center(
-                      child: Text("Wallet Balance", style: TextStyle(fontSize: 25.00,)),
+                      child: Text("916 DIGITAL GOLD",
+                          style: TextStyle(
+                              fontSize: 30.00,
+                              color: Colors.red,
+                              fontStyle: FontStyle.italic)),
                     ),
-                    SizedBox(height: 20,),
+                    SizedBox(
+                      height: 30,
+                    ),
                     Center(
-                      child: Text("₹ 3800.89", style: TextStyle(fontSize: 25.00,)),
+                      child: Text("Wallet Balance",
+                          style: TextStyle(
+                            fontSize: 25.00,
+                          )),
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Center(
+                      child: Text("₹ 3800.89",
+                          style: TextStyle(
+                            fontSize: 25.00,
+                          )),
                     ),
                   ],
                 ),
-
               ),
             ),
             Container(
@@ -97,7 +113,9 @@ class _TestHomeState extends State<TestHome> {
               child: Center(
                 child: Column(
                   children: [
-                    const SizedBox(height: 20,),
+                    const SizedBox(
+                      height: 20,
+                    ),
                     // SizedBox(
                     //   height: 20,
                     //   child: TextButton(onPressed: () {}, child: const Icon(Icons.currency_rupee)),
@@ -105,18 +123,22 @@ class _TestHomeState extends State<TestHome> {
                     const TextField(
                       decoration: InputDecoration(
                           hintText: "Amount",
-                          prefixIcon: Icon(Icons.currency_rupee)
-                      ),
+                          prefixIcon: Icon(Icons.currency_rupee)),
                     ),
-                    const SizedBox(height: 20,),
-                    ElevatedButton(onPressed: () {}, child: const Text("Add Amount")),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    ElevatedButton(
+                        onPressed: () {}, child: const Text("Add Amount")),
                   ],
                 ),
-              ),    // , style: TextStyle(color: getThemeVal() ? Colors.blue : Colors.amber )
+              ), // , style: TextStyle(color: getThemeVal() ? Colors.blue : Colors.amber )
             ),
           ],
         ),
-        const SizedBox(height: 60,),
+        const SizedBox(
+          height: 60,
+        ),
         SizedBox(
           height: 200,
           child: ListView(
@@ -157,9 +179,7 @@ class _TestHomeState extends State<TestHome> {
             ],
           ),
         ),
-
       ],
     );
-
   }
 }

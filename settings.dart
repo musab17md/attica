@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-
 class Settings extends StatefulWidget {
   const Settings({Key? key}) : super(key: key);
 
@@ -22,7 +21,7 @@ class _SettingsState extends State<Settings> {
 
   getTheme() async {
     final prefs = await SharedPreferences.getInstance();
-    return prefs.getBool("theme");
+    return prefs.getBool("theme") ?? false;
   }
 
   getSwitchValues() async {
@@ -35,6 +34,7 @@ class _SettingsState extends State<Settings> {
     super.initState();
     getSwitchValues();
   }
+
   @override
   Widget build(BuildContext context) {
     final theme = Provider.of<ThemeChanger>(context);
@@ -57,7 +57,9 @@ class _SettingsState extends State<Settings> {
                     setState(() {
                       isSwitched = value;
                     });
-                    isSwitched == false ? theme.setTheme(ThemeData.light()) : theme.setTheme(ThemeData.dark());
+                    isSwitched == false
+                        ? theme.setTheme(ThemeData.light())
+                        : theme.setTheme(ThemeData.dark());
                     saveTheme(isSwitched);
                   },
                 ),

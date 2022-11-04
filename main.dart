@@ -1,10 +1,17 @@
+import 'package:ecom/addgoldrate.dart';
+import 'package:ecom/addimage.dart';
 import 'package:ecom/login.dart';
 import 'package:ecom/navbar.dart';
+import 'package:ecom/provider/AddProductForm.dart';
+import 'package:ecom/settings.dart';
 import 'package:ecom/testhome.dart';
 import 'package:ecom/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import 'addprod3.dart';
+import 'home.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -17,6 +24,7 @@ void main() {
           ChangeNotifierProvider(
               create: (_) => ThemeChanger(
                   savedTheme ? ThemeData.dark() : ThemeData.light())),
+          ChangeNotifierProvider(create: (_) => UpdateNetAmount()),
         ],
         child: const MyApp(),
       ),
@@ -46,14 +54,22 @@ class _MyAppState extends State<MyApp> {
       debugShowCheckedModeBanner: false,
       theme: theme.getTheme(),
       title: 'ATTICA',
+      routes: <String, WidgetBuilder>{
+        '/main': (BuildContext context) => const MyApp(),
+        '/home': (BuildContext context) => const MyHome(),
+        '/addProd': (BuildContext context) => const AddProduct3(),
+        '/addGold': (BuildContext context) => const AddGoldRate(),
+        '/addImage': (BuildContext context) => const AddProductImage(),
+        '/setting': (BuildContext context) => const Settings(),
+      },
       home: FutureBuilder(
           future: getToken(),
           builder: (BuildContext context, AsyncSnapshot snapshot) {
-
             if (snapshot.data == null) {
-              return const LoginPage();
+              // return const LoginPage();
+              return const MyHome();
             } else {
-              return const TestHome();
+              return const MyHome();
             }
           }),
     );
