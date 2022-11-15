@@ -1,8 +1,0 @@
-null check for uploading media files
-show media in home screen
-video upload
-updated floatingactionbutton
-gold rate prefilled from sharedpref on page "add product"
-addProduct: if gold rate is null then show alert
-and added variable to all gold rate reference
-###Todo### change rates according to metal selection AddProd Page
