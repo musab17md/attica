@@ -1,0 +1,41 @@
+09112022
+Rework on add product page because of framerate issue
+######
+08112022
+video player
+python django database setup
+######
+07112022
+full screen image view
+image scroll horizontal
+get files with any ext
+upload files with progress tracking
+######
+05112022
+worked on php to upload media files
+######
+04112022
+null check for uploading media files
+show media in home screen
+video upload
+updated floatingactionbutton
+gold rate prefilled from sharedpref on page "add product"
+addProduct: if gold rate is null then show alert
+and added variable to all gold rate reference
+###Todo### change rates according to metal selection AddProd Page
+
+
+Server side Api
+Photographer upload
+Vendor Product upload
+Select Photographer image while Product Upload
+Vendor Add Gold rate
+List uploaded product
+list Uploaded Images
+
+
+
+Login / Logout
+Sign Up
+
+

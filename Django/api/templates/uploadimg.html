@@ -1,0 +1,41 @@
+{% load crispy_forms_tags %}
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+
+    {% if messages %}
+    <div class="messages" id="message_container">
+        {% for message in messages %}
+        <div{% if message.tags %} class="alert {{ message.tags }}"{% endif %}>{{ message }}</div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <div class="container">
+        <h1 class="display-4">Attica</h1>
+        <div class="py-5">
+            <div class="row">
+                <div class="col-12">
+                    <form enctype="multipart/form-data" method="post">
+                        {% csrf_token %}
+                        {{ form|crispy }}
+                        <input type="submit">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        var message_ele = document.getElementById("message_container");
+        setTimeout(function(){ 
+        message_ele.style.display = "none"; 
+        }, 3000);  // 2000 millisecond
+    </script>
+</body>
+</html>

@@ -1,0 +1,86 @@
+# from email.policy import default
+from django.db import models
+from django.core.validators import FileExtensionValidator
+
+# # Create your models here.
+
+
+# metal_choice = [
+#         ('Gold','Gold'),
+#         ('Silver','Silver'),
+#     ]
+
+# ornaments = ["tikkas", "earrings", "anklets", "bangles", "rings", "necklaces", "pendants", "toe rings", "bracelets", "nose pins"]
+# ornament_choice = []
+# for orn in ornaments:
+#     ornament_choice.append((orn, orn))
+
+
+# class Account(models.Model):
+#     select_metal = models.CharField(max_length=15,default='Select',choices=metal_choice)
+#     ornament_type = models.CharField(max_length=15,default='Select',choices=ornament_choice)
+#     purity = models.DecimalField(max_digits = 5, decimal_places = 2)
+
+#     def __str__(self):
+#         return str(self.select_metal)
+
+class Noti(models.Model):
+    product_name = models.CharField(max_length=50)
+    metal = models.CharField(max_length=30)
+    ornament = models.CharField(max_length=100)
+    purity = models.CharField(max_length=10)
+    rate = models.CharField(max_length=60)
+    grossw = models.CharField(db_column='grossW', max_length=100)  # Field name made lowercase.
+    stonew = models.CharField(db_column='stoneW', max_length=120)  # Field name made lowercase.
+    makingc = models.CharField(db_column='makingC', max_length=120)  # Field name made lowercase.
+    wastagec = models.CharField(db_column='wastageC', max_length=120)  # Field name made lowercase.
+    stonec = models.CharField(db_column='stoneC', max_length=150)  # Field name made lowercase.
+    netw = models.CharField(db_column='netW', max_length=120)  # Field name made lowercase.
+    neta = models.CharField(db_column='NetA', max_length=160)  # Field name made lowercase.
+    totala = models.CharField(db_column='totalA', max_length=160)  # Field name made lowercase.
+    vaildd = models.CharField(db_column='vaildD', max_length=100)  # Field name made lowercase.
+    qty = models.CharField(max_length=120)
+    vendor = models.CharField(max_length=180)
+    submitdate = models.CharField(db_column='submitDate', max_length=100)  # Field name made lowercase.
+    image = models.CharField(max_length=320, blank=True, null=True)
+    status = models.CharField(max_length=80)
+
+    class Meta:
+        managed = True
+        db_table = 'noti'
+
+
+class Pics(models.Model):
+    vendor = models.CharField(max_length=150)
+    ornament = models.CharField(max_length=150)
+    model1 = models.CharField(max_length=255)
+    model2 = models.CharField(max_length=255)
+    video = models.CharField(max_length=255)
+    pic1 = models.CharField(max_length=255)
+    pic2 = models.CharField(max_length=255)
+    pic3 = models.CharField(max_length=255)
+    time = models.CharField(max_length=100)
+    date = models.CharField(max_length=100)
+    status = models.CharField(max_length=100)
+
+    class Meta:
+        managed = True
+        db_table = 'pics'
+
+
+class Pics2(models.Model):
+    vendor = models.CharField(max_length=150)
+    ornament = models.CharField(max_length=150)
+    model1 = models.ImageField(upload_to='images_uploaded',null=True)
+    model2 = models.ImageField(upload_to='images_uploaded',null=True)
+    video = models.FileField(upload_to='videos_uploaded',null=True, validators=[FileExtensionValidator(allowed_extensions=['MOV','avi','mp4','webm','mkv'])])
+    pic1 = models.ImageField(upload_to='images_uploaded',null=True)
+    pic2 = models.ImageField(upload_to='images_uploaded',null=True)
+    pic3 = models.ImageField(upload_to='images_uploaded',null=True)
+    time = models.CharField(max_length=50)
+    date = models.CharField(max_length=50)
+    status = models.CharField(max_length=100)
+
+    class Meta:
+        managed = True
+        db_table = 'pics2'
