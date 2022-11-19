@@ -94,8 +94,7 @@ class _ViewProductState extends State<ViewProduct> {
   getPhoto() async {
     Response response = await ApiClient()
         .getData("http://192.168.0.134:8123/pics/${data["image"].toString()}/");
-    debugPrint(response.body.toString());
-    debugPrint("response.body.toString()");
+    debugPrint("ListProdView: response body > ${response.body.toString()}");
     photoJsonData = jsonDecode(response.body);
     // widget.myData["model1"] = photoJsonData['model1'];
     // widget.myData["model2"] = photoJsonData['model2'];
@@ -109,6 +108,7 @@ class _ViewProductState extends State<ViewProduct> {
   postApprove() async {
     String authEndpoint =
         "http://192.168.0.134:8123/noti/${widget.myData["id"]}/";
+
     debugPrint(authEndpoint);
     String body = jsonEncode({"status": "Approved"});
     Response response = await ApiClient().patchApprove(authEndpoint, body);
@@ -233,7 +233,7 @@ class _ViewProductState extends State<ViewProduct> {
         ],
       );
     } else {
-      return Container(
+      return const SizedBox(
         height: 1,
         width: 1,
       );

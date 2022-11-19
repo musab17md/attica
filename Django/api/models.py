@@ -24,6 +24,29 @@ from django.core.validators import FileExtensionValidator
 #     def __str__(self):
 #         return str(self.select_metal)
 
+
+class User(models.Model):
+    type = models.CharField(max_length=50)
+    username = models.CharField(max_length=50)
+    password = models.CharField(max_length=50)
+    branch = models.CharField(max_length=50)
+    agent = models.CharField(max_length=50)
+    active = models.CharField(max_length=50)
+    date = models.CharField(max_length=50)
+
+    class Meta:
+        managed = True
+        db_table = 'user'
+
+
+class Group(models.Model):
+    group_name = models.CharField(max_length=50)
+
+    class Meta:
+        managed = True
+        db_table = 'group'
+
+
 class Noti(models.Model):
     product_name = models.CharField(max_length=50)
     metal = models.CharField(max_length=30)
@@ -41,6 +64,7 @@ class Noti(models.Model):
     vaildd = models.CharField(db_column='vaildD', max_length=100)  # Field name made lowercase.
     qty = models.CharField(max_length=120)
     vendor = models.CharField(max_length=180)
+    vendor_id = models.CharField(max_length=50)
     submitdate = models.CharField(db_column='submitDate', max_length=100)  # Field name made lowercase.
     image = models.CharField(max_length=320, blank=True, null=True)
     status = models.CharField(max_length=80)
@@ -50,26 +74,28 @@ class Noti(models.Model):
         db_table = 'noti'
 
 
-class Pics(models.Model):
-    vendor = models.CharField(max_length=150)
-    ornament = models.CharField(max_length=150)
-    model1 = models.CharField(max_length=255)
-    model2 = models.CharField(max_length=255)
-    video = models.CharField(max_length=255)
-    pic1 = models.CharField(max_length=255)
-    pic2 = models.CharField(max_length=255)
-    pic3 = models.CharField(max_length=255)
-    time = models.CharField(max_length=100)
-    date = models.CharField(max_length=100)
-    status = models.CharField(max_length=100)
+# class Pics(models.Model):
+#     vendor = models.CharField(max_length=150)
+#     ornament = models.CharField(max_length=150)
+#     model1 = models.CharField(max_length=255)
+#     model2 = models.CharField(max_length=255)
+#     video = models.CharField(max_length=255)
+#     pic1 = models.CharField(max_length=255)
+#     pic2 = models.CharField(max_length=255)
+#     pic3 = models.CharField(max_length=255)
+#     time = models.CharField(max_length=100)
+#     date = models.CharField(max_length=100)
+#     status = models.CharField(max_length=100)
+#     photographer_id = models.CharField(max_length=50)
 
-    class Meta:
-        managed = True
-        db_table = 'pics'
+#     class Meta:
+#         managed = True
+#         db_table = 'pics'
 
 
 class Pics2(models.Model):
     vendor = models.CharField(max_length=150)
+    vendor_id = models.CharField(max_length=50)
     ornament = models.CharField(max_length=150)
     model1 = models.ImageField(upload_to='images_uploaded',null=True)
     model2 = models.ImageField(upload_to='images_uploaded',null=True)
@@ -80,7 +106,23 @@ class Pics2(models.Model):
     time = models.CharField(max_length=50)
     date = models.CharField(max_length=50)
     status = models.CharField(max_length=100)
+    photographer_id = models.CharField(max_length=50)
 
     class Meta:
         managed = True
         db_table = 'pics2'
+
+
+
+
+class Gold(models.Model):
+    metal = models.CharField(max_length=150)
+    rate = models.CharField(max_length=150)
+    vendor = models.CharField(max_length=150)
+    vendor_id = models.CharField(max_length=50)
+    time = models.CharField(max_length=50)
+    date = models.CharField(max_length=50)
+
+    class Meta:
+        managed = True
+        db_table = 'gold'

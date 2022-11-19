@@ -11,3 +11,14 @@ class SwithUser with ChangeNotifier {
     notifyListeners();
   }
 }
+
+class CurrentUser with ChangeNotifier {
+  String userId = "";
+
+  String get currUser => userId;
+
+  void setUser(String txt) {
+    userId = txt;
+    notifyListeners();
+  }
+}

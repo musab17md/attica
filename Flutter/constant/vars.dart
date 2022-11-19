@@ -1,4 +1,5 @@
 import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 String date = DateFormat('yMd').format(DateTime.now());
 String time = DateFormat('jms').format(DateTime.now());
@@ -33,3 +34,8 @@ const List<String> validDate = <String>[
   '15 Day',
   '30 Day'
 ];
+
+getUser() async {
+  final prefs = await SharedPreferences.getInstance();
+  return prefs.getStringList('userkey');
+}

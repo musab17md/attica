@@ -1,5 +1,10 @@
+import 'dart:convert';
+
 import 'package:ecom/constant/navbar.dart';
+import 'package:ecom/constant/vars.dart';
+import 'package:ecom/core/api_client.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -25,7 +30,7 @@ class _AddGoldRateState extends State<AddGoldRate> {
 
 const List<String> metalType = <String>['Gold', 'Silver'];
 
-String date = DateFormat('yMd').format(DateTime.now());
+String date = DateFormat('dd/MM/yyyy').format(DateTime.now());
 String time = DateFormat('HH:mm:ss').format(DateTime.now());
 
 class GoldRateWidget extends StatefulWidget {
@@ -41,15 +46,30 @@ class _GoldRateWidgetState extends State<GoldRateWidget> {
   final _formKey = GlobalKey<FormState>();
 
   submitForm() async {
-    List<String> myList = [
-      _selectedMetal ?? "",
-      _goldRate,
-      time,
-      date,
-    ];
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setStringList('last_rate', myList);
+    var userkey = await getUser();
+    // List<String> myList = [
+    //   _selectedMetal ?? "",
+    //   _goldRate,
+    //   time,
+    //   date,
+    // ];
+    // final prefs = await SharedPreferences.getInstance();
+    // await prefs.setStringList('last_rate', myList);
     // postApiHere
+
+    // get or create gold rate
+    // get gold rate from vendor id else create gold rate on vendor id
+    Map<String, String> body = {
+      'metal': _selectedMetal.toString(),
+      'rate': _goldRate,
+      'vendor': userkey[1],
+      'vendor_id': userkey[0],
+      'time': time,
+      'date': date,
+    };
+    Response response = await ApiClient()
+        .postJson(Uri.http('192.168.0.134:8123', '/gold/'), jsonEncode(body));
+    debugPrint(jsonDecode(response.body).toString());
   }
 
   clearPrefs() async {

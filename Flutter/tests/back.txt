@@ -1,0 +1,33 @@
+Column buildVendorForm() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SizedBox(
+          height: 60,
+          child: InputDecorator(
+            decoration: const InputDecoration(
+              border: OutlineInputBorder(),
+              labelText: "Select Vendor",
+            ),
+            child: DropdownButtonHideUnderline(
+              child: DropdownButton(
+                value: _selectedVendor,
+                hint: const Text("Select Vendor"),
+                onChanged: (String? value) {
+                  setState(() {
+                    _selectedVendor = value ?? "";
+                  });
+                },
+                items: vendors.map<DropdownMenuItem<String>>((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value),
+                  );
+                }).toList(),
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }

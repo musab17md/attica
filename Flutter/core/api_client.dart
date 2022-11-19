@@ -31,6 +31,71 @@ class ApiClient {
     return response;
   }
 
+  Future login2(String user, String pass) async {
+    final prefs = await SharedPreferences.getInstance();
+    String authEndpoint = "http://192.168.0.134:8123/authenticate/";
+    print("ApiClient: Login2 start");
+    Map data = {
+      'username': user,
+      'password': pass,
+    };
+    var body = json.encode(data);
+    var response = await http.post(
+      Uri.parse(authEndpoint),
+      headers: {"Content-Type": "application/json"},
+      body: body,
+    );
+    var resp = json.decode(response.body);
+    print("ApiClient: response.body > $resp");
+    if (response.statusCode.toString() != "404") {
+      // print(resp["username"]);
+      // {"type": "Admin", "username": "msb", "password": "mmmmm", "branch": "mmm", "agent": "mmm", "date": "date", "active": "0"}
+      List<String> mydata = [
+        resp["id"].toString(),
+        resp["type"],
+        resp["username"],
+        resp["password"],
+        resp["branch"],
+        resp["agent"],
+        resp["date"],
+        resp["active"],
+      ];
+      print("ApiClient: Sharedpref setting up userkey list");
+      prefs.setStringList("userkey", mydata);
+      // print("ApiClient: set user type in provider UserType");
+      // UserType().setUserType(resp["type"]);
+    }
+    print("ApiClient: ");
+    print(response.statusCode);
+    print(response.body.toString());
+    return response;
+  }
+
+  Future changePass(user, newpass) async {
+    String authEndpoint = "http://192.168.0.134:8123/changepass/";
+    Map data = {
+      'username': user,
+      'password': newpass,
+    };
+    print(data.toString());
+    var body = json.encode(data);
+    var response = await http.post(
+      Uri.parse(authEndpoint),
+      headers: {"Content-Type": "application/json"},
+      body: body,
+    );
+    final prefs = await SharedPreferences.getInstance();
+    var resp = json.decode(response.body);
+    if (response.statusCode.toString() != "404") {
+      List? key = prefs.getStringList("userkey");
+      key![2] = newpass;
+      print("ApiClient: $resp");
+      return "success";
+    }
+    print("ApiClient: ${response.statusCode}");
+    return "failed";
+  }
+
   Future userType() async {
     //GET USER PROFILE DATA
     Uri url = currentUserUrl;
@@ -45,10 +110,6 @@ class ApiClient {
     return response;
   }
 
-  Future logout() async {
-    //IMPLEMENT USER LOGOUT
-  }
-
   getDirFile(name) async {
     final directory = await getApplicationDocumentsDirectory();
     List files = Directory(directory.path).listSync();
@@ -61,8 +122,6 @@ class ApiClient {
       }
     }
   }
-
-  Future uploadImage(vendor, ornament) async {}
 
   Future postData(List myData) async {
     String authEndpoint = "http://192.168.0.134:8123/noti/";
@@ -106,7 +165,7 @@ class ApiClient {
   }
 
   patchApprove(authEndpoint, body) async {
-    String token = await getToken();
+    // String token = await getToken();
     http.Response response = await http.patch(
       Uri.parse(authEndpoint),
       headers: {
@@ -119,7 +178,7 @@ class ApiClient {
   }
 
   patchDeny(authEndpoint, body) async {
-    String token = await getToken();
+    // String token = await getToken();
     http.Response response = await http.patch(
       Uri.parse(authEndpoint),
       headers: {
@@ -131,8 +190,19 @@ class ApiClient {
     return response;
   }
 
+  getVendorList() async {
+    String authEndpoint = "http://192.168.0.134:8123/vendors/";
+    var response = await http.get(
+      Uri.parse(authEndpoint),
+      headers: {"Content-Type": "application/json"},
+    );
+    var resp = json.decode(response.body);
+    // print("ApiClient: $resp");
+    return resp;
+  }
+
   getData(authEndpoint) async {
-    String token = await getToken();
+    // String token = await getToken();
     http.Response response = await http.get(
       Uri.parse(authEndpoint),
       headers: {
@@ -140,6 +210,25 @@ class ApiClient {
         // "Authorization": "Token $token"
       },
     );
+    return response;
+  }
+
+  getWithPostJson(authEndpoint, body) async {
+    http.Response response = await http.post(
+      Uri.parse(authEndpoint),
+      headers: {
+        "Content-Type": "application/json",
+        // "Authorization": "Token $token"
+      },
+      body: body,
+    );
+    return response;
+  }
+
+  postJson(Uri url, body) async {
+    final headers = {"Content-Type": 'application/json'};
+    final response = await http.post(url, headers: headers, body: body);
+    print("ApiClient: ${response.statusCode.toString()}");
     return response;
   }
 }

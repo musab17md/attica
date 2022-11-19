@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:ecom/core/api_client.dart';
 import 'package:ecom/main.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -44,14 +45,14 @@ postLogin(user, pass) async {
   //   debugPrint(jsonData["token"]);
   //   return "true";
   // }
-  var response = await ApiClient().login(user, pass);
+  var response = await ApiClient().login2(user, pass);
   var jsonData = jsonDecode(response.body);
   debugPrint(jsonData.toString());
 
   if (response.statusCode == 200) {
-    await prefs.setString('token', jsonData["token"]);
-    debugPrint("Login: Saved token to sharedpref");
-    debugPrint(jsonData["token"]);
+    // await prefs.setString('token', jsonData["token"]);
+    // debugPrint("Login: Saved token to sharedpref");
+    // debugPrint(jsonData["token"]);
     getProfile();
     // return "true";
   }
@@ -69,6 +70,32 @@ class _LoginPageState extends State<LoginPage> {
   TextEditingController passwordController = TextEditingController();
   final ValueNotifier<bool> loadingStat = ValueNotifier<bool>(false);
   bool _signInActive = true;
+
+  userLogin() async {
+    Response response =
+        await ApiClient().login2(nameController.text, passwordController.text);
+    debugPrint(response.body.toString());
+    if (response.statusCode == 404) {
+      showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: const Text("Error"),
+              content: const Text("Incorrect username or password"),
+              actions: [
+                ElevatedButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: const Text("Back"))
+              ],
+            );
+          });
+    } else {
+      Navigator.push(
+          context, MaterialPageRoute(builder: ((context) => const MyApp())));
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -162,21 +189,23 @@ class _LoginPageState extends State<LoginPage> {
               height: 40,
             ),
             ElevatedButton(
-              onPressed: () {
-                postLogin(nameController.text, passwordController.text)
-                    .then((result) {
-                  debugPrint("Login: $result");
+              onPressed: () async {
+                // ApiClient()
+                //     .login2(nameController.text, passwordController.text)
+                //     .then((result) {
+                //   debugPrint("Login: $result");
 
-                  loadingStat.value = false;
-                  if (result == "true") {
-                    debugPrint(
-                        "if cond is $result, Pushing navigator to MyApp");
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: ((context) => const MyApp())));
-                  }
-                });
+                //   loadingStat.value = false;
+                //   if (result == "true") {
+                //     debugPrint(
+                //         "if cond is $result, Pushing navigator to MyApp");
+                //     Navigator.push(
+                //         context,
+                //         MaterialPageRoute(
+                //             builder: ((context) => const MyApp())));
+                //   }
+                // });
+                userLogin();
               },
               style: ElevatedButton.styleFrom(
                   minimumSize:
@@ -201,6 +230,15 @@ class _LoginPageState extends State<LoginPage> {
       child: SizedBox(
         child: Column(
           children: [
+            const TextField(
+              textInputAction: TextInputAction.next,
+              decoration: InputDecoration(
+                  hintText: "Enter Your Contact Number",
+                  prefixIcon: Icon(Icons.phone_android)),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
             const TextField(
               textInputAction: TextInputAction.next,
               decoration: InputDecoration(

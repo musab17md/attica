@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:ecom/constant/image_view.dart';
 import 'package:ecom/core/api_client.dart';
-import 'package:ecom/screens/home.dart';
 import 'package:ecom/screens/play_video.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
@@ -139,7 +139,7 @@ class _ViewImageState extends State<ViewImage> {
                     onPressed: () {
                       Navigator.pushNamedAndRemoveUntil(
                           context, "/home", (route) => false);
-                      Navigator.pushNamed(context, "/listImage");
+                      Navigator.pushNamed(context, "/listPhoto");
                     },
                     child: const Text("Done"))
               ],
@@ -183,7 +183,7 @@ class _ViewImageState extends State<ViewImage> {
                     onPressed: () {
                       Navigator.pushNamedAndRemoveUntil(
                           context, "/home", (route) => false);
-                      Navigator.pushNamed(context, "/listImage");
+                      Navigator.pushNamed(context, "/listPhoto");
                     },
                     child: const Text("Done"))
               ],

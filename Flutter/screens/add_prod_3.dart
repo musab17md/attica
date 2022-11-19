@@ -2,12 +2,14 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:ecom/constant/navbar.dart';
+import 'package:ecom/constant/vars.dart';
 import 'package:ecom/core/api_client.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:intl/intl.dart';
-import 'home.dart';
+import 'home_design1.dart';
 import 'package:http/http.dart' as http;
 
 class AddProduct3 extends StatelessWidget {
@@ -181,13 +183,34 @@ class _FormWidgetState extends State<FormWidget> {
   }
 
   getRate() async {
-    final prefs = await SharedPreferences.getInstance();
-    if (prefs.getStringList('last_rate') != null) {
-      formValue[3] = prefs.getStringList('last_rate')![1];
-      setState(() {});
-      return "";
+    // final prefs = await SharedPreferences.getInstance();
+    // if (prefs.getStringList('last_rate') != null) {
+    //   formValue[3] = prefs.getStringList('last_rate')![1];
+    //   setState(() {});
+    //   return "";
+    // } else {
+    //   return null;
+    // }
+    // get or create gold rate
+    // get gold rate from vendor id else create gold rate on vendor id
+    // get rate of vendor_id
+    var userkey = await getUser();
+    debugPrint("AddProd: getUser > ${userkey.toString()}");
+    Uri url = Uri.http("192.168.0.134:8123", "gold/");
+    Map<String, String> body = {
+      'vendor_id': userkey[0],
+    };
+    Response response = await ApiClient().postJson(url, jsonEncode(body));
+    debugPrint(
+        "AddProd: getGoldRateResponse > ${response.body} & Vendor_id > ${userkey[0]}");
+    debugPrint("AddProd: status code > ${response.statusCode}");
+    debugPrint(jsonDecode(response.body)["rate"].toString());
+
+    if (jsonDecode(response.body)["rate"] == "") {
+      return "null";
     } else {
-      return null;
+      formValue[3] = jsonDecode(response.body)["rate"];
+      return "success";
     }
   }
 
@@ -317,7 +340,10 @@ class _FormWidgetState extends State<FormWidget> {
         child: FutureBuilder(
             future: getRate(),
             builder: (context, snapshot) {
-              if (snapshot.data == null) {
+              if (snapshot.data == "success") {
+                return formWidget(context);
+              }
+              if (snapshot.data == "null") {
                 return SizedBox(
                   height: 680,
                   child: Center(
@@ -336,7 +362,9 @@ class _FormWidgetState extends State<FormWidget> {
                   ),
                 );
               }
-              return formWidget(context);
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
             }),
       ),
     );

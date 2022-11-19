@@ -1,4 +1,5 @@
 import 'package:ecom/constant/navbar.dart';
+import 'package:ecom/core/api_client.dart';
 import 'package:ecom/screens/upload_image.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -28,7 +29,7 @@ class _AddProductImageState extends State<AddProductImage> {
   }
 }
 
-const List<String> vendors = <String>['Attica Gold', 'Minam Solutions'];
+// List<String> vendors = <String>[];
 const List<String> ornaments = <String>[
   "Anklets",
   "Baby Bangles",
@@ -156,14 +157,24 @@ class _AddImageWidgetState extends State<AddImageWidget> {
     }
   }
 
+  String currentUserId = "";
+
+  getCurrentUserId() async {
+    final prefs = await SharedPreferences.getInstance();
+    currentUserId = prefs.getStringList("userkey")![0];
+  }
+
   submitForm2() async {
     var request = http.MultipartRequest('POST', urls.addPics);
+    var svend = _selectedVendor!.split(", ");
     request.fields.addAll({
-      'vendor': 'musab34',
-      'time': '10:21:00',
-      'date': '10/11/2022',
+      'vendor': svend[1].toString(),
+      'vendor_id': svend[0].toString(),
+      'time': time,
+      'date': date,
       'status': 'Pending',
-      'ornament': 'Ring'
+      'ornament': _selectedOrnament.toString(),
+      'photographer_id': currentUserId,
     });
 
     // var image = "/storage/emulated/0/download/gold_image.jpeg";
@@ -333,8 +344,8 @@ class _AddImageWidgetState extends State<AddImageWidget> {
     debugPrint(directory.path);
     String path = directory.path;
 
-    final ImagePicker _picker = ImagePicker();
-    final XFile? pickedFile = await _picker.pickImage(
+    final ImagePicker picker = ImagePicker();
+    final XFile? pickedFile = await picker.pickImage(
       source: ImageSource.gallery,
     );
     debugPrint("###################");
@@ -346,6 +357,50 @@ class _AddImageWidgetState extends State<AddImageWidget> {
     } else {
       debugPrint("picked File is None");
     }
+  }
+
+  // List vendorData = [];
+  // getVendorList() async {
+  //   var resp = await ApiClient().getVendorList();
+  //   debugPrint(resp.toString());
+  //   setState(() {
+  //     vendorData = resp;
+  //   });
+  // }
+
+  List<String> vendors = <String>[];
+  List<String> vendorsId = <String>[];
+  List<String> vendorlist = <String>[];
+
+  getVendorData() async {
+    var vend = await ApiClient().getVendorList();
+    // debugPrint(vend.toString());
+    // print(vend[1]["username"]);
+    // vendors = [
+    //   for (var items in vend) items["username"],
+    // ];
+    vendors = <String>[
+      for (var items in vend) items["username"],
+    ];
+
+    vendorsId = <String>[
+      for (var items in vend) items["id"].toString(),
+    ];
+
+    vendorlist = [
+      for (var items in vend) '${items["id"].toString()}, ${items["username"]}',
+    ];
+
+    debugPrint(vendors.toString());
+    debugPrint(vendorsId.toString());
+    debugPrint(vendorlist.toString());
+    return "success";
+  }
+
+  @override
+  void initState() {
+    getCurrentUserId();
+    super.initState();
   }
 
   @override
@@ -421,9 +476,12 @@ class _AddImageWidgetState extends State<AddImageWidget> {
                     ),
                     ElevatedButton(
                         onPressed: () {
-                          clearImage();
+                          // clearImage();
+                          // ApiClient().getVendorList();
+                          // getCurrentUserId();
+                          debugPrint(_selectedVendor.toString());
                         },
-                        child: const Text("Clear data")),
+                        child: const Text("Test")),
                     const SizedBox(
                       height: 15,
                     ),
@@ -834,23 +892,28 @@ class _AddImageWidgetState extends State<AddImageWidget> {
               border: OutlineInputBorder(),
               labelText: "Select Vendor",
             ),
-            child: DropdownButtonHideUnderline(
-              child: DropdownButton(
-                value: _selectedVendor,
-                hint: const Text("Select Vendor"),
-                onChanged: (String? value) {
-                  setState(() {
-                    _selectedVendor = value ?? "";
-                  });
-                },
-                items: vendors.map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value),
+            child: FutureBuilder(
+                future: getVendorData(),
+                builder: (context, snapshot) {
+                  return DropdownButtonHideUnderline(
+                    child: DropdownButton(
+                      value: _selectedVendor,
+                      hint: const Text("Select Vendor"),
+                      onChanged: (String? value) {
+                        setState(() {
+                          _selectedVendor = value ?? "";
+                        });
+                      },
+                      items: vendorlist
+                          .map<DropdownMenuItem<String>>((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value.split(", ")[1]),
+                        );
+                      }).toList(),
+                    ),
                   );
-                }).toList(),
-              ),
-            ),
+                }),
           ),
         ),
       ],

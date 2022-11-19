@@ -1,61 +1,110 @@
 from django.http import JsonResponse
-from django.shortcuts import render, redirect
-from django.urls import reverse
-from django.views.generic.edit import CreateView
+from django.shortcuts import get_object_or_404, render
 # from requests import Response
-from .forms import *
-from django.contrib import messages
-from rest_framework import generics, permissions, authentication
-from .models import *
-from .serializers import *
+from api.forms import *
+from rest_framework import generics
+from api.models import *
+from api.serializers import *
 from rest_framework.authtoken.models import Token
 from rest_framework.decorators import api_view
-from rest_framework import status, mixins, permissions
 from rest_framework.response import Response
-from django.contrib.auth.models import User
-from rest_framework.views import APIView
+# from django.contrib.auth.models import User
 import json
 
 
 # Create your views here.
 
-import mysql.connector
 
 
 def home(request):
     return render(request, 'main.html')
 
 
+class metal_retrive(generics.RetrieveUpdateAPIView):
+    serializer_class = GoldSerilizer
+    queryset = Gold.objects.all()
+    lookup_field = "vendor_id"
+
+
+# class metal_create(generics.CreateAPIView):
+#     serializer_class = GoldSerilizer
+#     queryset = Gold.objects.all()
+@api_view(['GET', 'POST'])
+def metal_get(request):
+    # if request.method == 'POST':
+    print(request.data)
+    print(type(request.data))
+    print(request.data["vendor_id"])
+    if "vendor" in request.data:
+        try:
+            print("vend exists")
+            gold = Gold.objects.get(vendor_id=request.data["vendor_id"])
+            gold.metal = request.data["metal"]
+            gold.rate = request.data["rate"]
+            gold.vendor = request.data["vendor"]
+            gold.time = request.data["time"]
+            gold.date = request.data["date"]
+            gold.save()
+            return Response({"Rate":"added"})
+        except:
+            return Response({"Rate":"An error occured"})
+    else:
+        print("not exists")
+        gold, created = Gold.objects.get_or_create(vendor_id=request.data["vendor_id"])
+        serializer = GoldSerilizer(gold)
+        return Response(serializer.data)
+
+    # if request.method == 'GET':
+    #     snippets = Snippet.objects.all()
+    #     serializer = SnippetSerializer(snippets, many=True)
+    #     return Response(serializer.data)
+
+    # elif request.method == 'POST':
+    #     serializer = SnippetSerializer(data=request.data)
+    #     if serializer.is_valid():
+    #         serializer.save()
+    #         return Response(serializer.data, status=status.HTTP_201_CREATED)
+    #     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
 class api_noti(generics.ListCreateAPIView):
     serializer_class = ApiNotiSerilizer
     queryset = Noti.objects.all()
-    authentication_classes = [authentication.SessionAuthentication, authentication.TokenAuthentication]
-    permission_classes = [permissions.IsAuthenticated]
+
+
+class noti_vendor(generics.ListAPIView):
+    serializer_class = ApiNotiSerilizer
+    
+    def get_queryset(self):
+        vendor_id = self.kwargs['vendor_id']
+        return Noti.objects.filter(vendor_id = vendor_id)
 
 
 class noti_ReUpDeApi(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = ApiNotiSerilizer
     queryset = Noti.objects.all()
-    authentication_classes = [authentication.SessionAuthentication, authentication.TokenAuthentication]
-    permission_classes = [permissions.IsAuthenticated]
+
 
 class api_pics(generics.ListCreateAPIView):
     serializer_class = ApiPicsSerilizer
     queryset = Pics2.objects.all()
-    authentication_classes = [authentication.SessionAuthentication, authentication.TokenAuthentication]
-    permission_classes = [permissions.IsAuthenticated]
 
 
 class pics_ReUpDeApi(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = ApiPicsSerilizer
     queryset = Pics2.objects.all()
-    authentication_classes = [authentication.SessionAuthentication, authentication.TokenAuthentication]
-    permission_classes = [permissions.IsAuthenticated]
+
+
+class pics_vendor(generics.ListAPIView):
+    serializer_class = ApiPicsSerilizer
+    
+    def get_queryset(self):
+        vendor_id = self.kwargs['vendor_id']
+        return Pics2.objects.filter(vendor_id = vendor_id)
+
 
 class get_photographer_ornament(generics.ListAPIView):
     serializer_class = ApiPicsSerilizer
-    authentication_classes = [authentication.SessionAuthentication, authentication.TokenAuthentication]
-    permission_classes = [permissions.IsAuthenticated]
     
     def get_queryset(self):
         ornament = self.kwargs['ornament']
@@ -63,11 +112,46 @@ class get_photographer_ornament(generics.ListAPIView):
         return Pics2.objects.filter(ornament = ornament)
 
 
-class get_users(generics.ListAPIView):
+# class get_users(generics.ListAPIView):
+#     serializer_class = UserSerializer
+#     queryset = User.objects.all()
+
+
+class user_LiCrApi(generics.ListCreateAPIView):
     serializer_class = UserSerializer
     queryset = User.objects.all()
-    authentication_classes = [authentication.SessionAuthentication, authentication.TokenAuthentication]
-    permission_classes = [permissions.IsAuthenticated]
+
+
+@api_view(["post"])
+def Auth_ReApi(request):
+    # data["username"] = ""
+    # data["password"] = ""
+    data = json.loads(request.body)
+    mydata = get_object_or_404(User, username=data["username"], password=data["password"])
+    serializer = UserSerializer(mydata)
+    return JsonResponse(serializer.data)
+
+
+@api_view(["post"])
+def changepass(request):
+    data = json.loads(request.body)
+    print(data)
+    mydata = get_object_or_404(User, username=data["username"])
+    mydata.password = data["password"]
+    mydata.save()
+    serializer = UserSerializer(mydata)
+    return JsonResponse(serializer.data)
+
+
+class vendors(generics.ListAPIView):
+    serializer_class = UserSerializer
+    def get_queryset(self):
+        return User.objects.filter(type = "Vendor")
+
+
+class group_LiCrApi(generics.ListCreateAPIView):
+    serializer_class = GroupSerializer
+    queryset = Group.objects.all()
 
 
 from django.contrib.auth.models import Group
