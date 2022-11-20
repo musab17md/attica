@@ -1,7 +1,8 @@
 import 'dart:convert';
 
-import 'package:ecom/constant/navbar.dart';
-import 'package:ecom/tests/addprod.dart';
+import 'package:attica/constant/navbar.dart';
+import 'package:attica/constant/urls.dart';
+import 'package:attica/tests/addprod.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -74,7 +75,7 @@ class _ListProductxState extends State<ListProductx> {
 
 Future<List?> getData(token) async {
   debugPrint("Getting data");
-  var authEndpoint = "http://192.168.0.134:8080/api/datalist/";
+  var authEndpoint = dataListUrl;
   final response = await http.get(
     Uri.parse(authEndpoint),
     headers: {

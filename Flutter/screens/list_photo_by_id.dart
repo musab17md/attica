@@ -1,11 +1,12 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:ecom/constant/navbar.dart';
-import 'package:ecom/screens/list_img_view.dart';
+import 'package:attica/constant/navbar.dart';
+import 'package:attica/screens/list_img_view.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:attica/constant/urls.dart';
 
 String selectedFilter = "All";
 
@@ -29,7 +30,7 @@ class _ListPhotoByIDState extends State<ListPhotoByID> {
     var userk = await getUser();
     debugPrint(userk.toString());
     debugPrint(userk[0].toString());
-    final uri = Uri.http('192.168.0.134:8123', '/pics/vendor/${userk[0]}/');
+    final uri = Uri.http(urlMain, '/pics/vendor/${userk[0]}/');
     final headers = {HttpHeaders.contentTypeHeader: 'application/json'};
     final response = await http.get(uri, headers: headers);
     debugPrint(response.body);

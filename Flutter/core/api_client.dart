@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:ecom/constant/urls.dart';
+import 'package:attica/constant/urls.dart';
 import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -17,7 +17,7 @@ class ApiClient {
   }
 
   Future login(String user, String pass) async {
-    String authEndpoint = "http://192.168.0.134:8123/auth/";
+    String authEndpoint = urlAuth;
     Map data = {
       'username': user,
       'password': pass,
@@ -33,7 +33,7 @@ class ApiClient {
 
   Future login2(String user, String pass) async {
     final prefs = await SharedPreferences.getInstance();
-    String authEndpoint = "http://192.168.0.134:8123/authenticate/";
+    String authEndpoint = "http://$urlMain/authenticate/";
     print("ApiClient: Login2 start");
     Map data = {
       'username': user,
@@ -72,7 +72,7 @@ class ApiClient {
   }
 
   Future changePass(user, newpass) async {
-    String authEndpoint = "http://192.168.0.134:8123/changepass/";
+    String authEndpoint = "http://$urlMain/changepass/";
     Map data = {
       'username': user,
       'password': newpass,
@@ -124,7 +124,7 @@ class ApiClient {
   }
 
   Future postData(List myData) async {
-    String authEndpoint = "http://192.168.0.134:8123/noti/";
+    String authEndpoint = "http://$urlMain/noti/";
     print(myData[0]);
     print(myData[17]);
     print(myData.toString());
@@ -191,7 +191,7 @@ class ApiClient {
   }
 
   getVendorList() async {
-    String authEndpoint = "http://192.168.0.134:8123/vendors/";
+    String authEndpoint = "http://$urlMain/vendors/";
     var response = await http.get(
       Uri.parse(authEndpoint),
       headers: {"Content-Type": "application/json"},

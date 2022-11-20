@@ -1,13 +1,14 @@
-import 'package:ecom/provider/SwitchUser.dart';
-import 'package:ecom/register/login.dart';
-import 'package:ecom/screens/home_design1.dart';
-import 'package:ecom/screens/list_prod.dart';
-import 'package:ecom/screens/list_prod_by_id.dart';
-import 'package:ecom/screens/upload_image.dart';
-import 'package:ecom/tests/addprod4.dart';
-import 'package:ecom/screens/list_img.dart';
-import 'package:ecom/tests/test.dart';
-import 'package:ecom/tests/test3.dart';
+import 'package:attica/provider/SwitchUser.dart';
+import 'package:attica/register/login.dart';
+import 'package:attica/screens/home_design1.dart';
+import 'package:attica/screens/list_prod.dart';
+import 'package:attica/screens/list_prod_by_id.dart';
+import 'package:attica/screens/upload_image.dart';
+import 'package:attica/tests/addprod4.dart';
+import 'package:attica/screens/list_img.dart';
+import 'package:attica/tests/dropdowntest.dart';
+import 'package:attica/tests/test.dart';
+import 'package:attica/tests/test3.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -228,6 +229,16 @@ class NavDraw extends StatelessWidget {
                   Navigator.pop(context);
                   Navigator.push(context,
                       MaterialPageRoute(builder: ((context) => const Test3())));
+                },
+              ),
+              ListTile(
+                title: const Text("DropDownTest"),
+                onTap: () {
+                  Navigator.pop(context);
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: ((context) => const DropDownTest())));
                 },
               ),
               ListTile(

@@ -1,8 +1,9 @@
 import 'dart:convert';
 
-import 'package:ecom/core/api_client.dart';
-import 'package:ecom/provider/SwitchUser.dart';
-import 'package:ecom/screens/play_video.dart';
+import 'package:attica/constant/urls.dart';
+import 'package:attica/core/api_client.dart';
+import 'package:attica/provider/SwitchUser.dart';
+import 'package:attica/screens/play_video.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:photo_view/photo_view.dart';
@@ -93,7 +94,7 @@ class _ViewProductState extends State<ViewProduct> {
 
   getPhoto() async {
     Response response = await ApiClient()
-        .getData("http://192.168.0.134:8123/pics/${data["image"].toString()}/");
+        .getData("http://$urlMain/pics/${data["image"].toString()}/");
     debugPrint("ListProdView: response body > ${response.body.toString()}");
     photoJsonData = jsonDecode(response.body);
     // widget.myData["model1"] = photoJsonData['model1'];
@@ -106,8 +107,7 @@ class _ViewProductState extends State<ViewProduct> {
   }
 
   postApprove() async {
-    String authEndpoint =
-        "http://192.168.0.134:8123/noti/${widget.myData["id"]}/";
+    String authEndpoint = "http://$urlMain/noti/${widget.myData["id"]}/";
 
     debugPrint(authEndpoint);
     String body = jsonEncode({"status": "Approved"});
@@ -151,8 +151,7 @@ class _ViewProductState extends State<ViewProduct> {
   }
 
   postDeny() async {
-    String authEndpoint =
-        "http://192.168.0.134:8123/noti/${widget.myData["id"]}/";
+    String authEndpoint = "http://$urlMain/noti/${widget.myData["id"]}/";
     debugPrint(authEndpoint);
     String body = jsonEncode({"status": "Rejected"});
     Response response = await ApiClient().patchDeny(authEndpoint, body);

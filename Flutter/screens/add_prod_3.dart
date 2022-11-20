@@ -1,9 +1,10 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:ecom/constant/navbar.dart';
-import 'package:ecom/constant/vars.dart';
-import 'package:ecom/core/api_client.dart';
+import 'package:attica/constant/navbar.dart';
+import 'package:attica/constant/urls.dart';
+import 'package:attica/constant/vars.dart';
+import 'package:attica/core/api_client.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:photo_view/photo_view.dart';
@@ -146,7 +147,7 @@ class _FormWidgetState extends State<FormWidget> {
 
   getPhotographerImages() async {
     String spacelessOrnament = formValue[1].replaceAll(" ", "_");
-    final uri = Uri.http('192.168.0.134:8123', '/pics/$spacelessOrnament/');
+    final uri = Uri.http(urlMain, '/pics/$spacelessOrnament/');
     final headers = {HttpHeaders.contentTypeHeader: 'application/json'};
     final response = await http.get(uri, headers: headers);
     debugPrint(response.body);
@@ -196,7 +197,7 @@ class _FormWidgetState extends State<FormWidget> {
     // get rate of vendor_id
     var userkey = await getUser();
     debugPrint("AddProd: getUser > ${userkey.toString()}");
-    Uri url = Uri.http("192.168.0.134:8123", "gold/");
+    Uri url = Uri.http(urlMain, "gold/");
     Map<String, String> body = {
       'vendor_id': userkey[0],
     };

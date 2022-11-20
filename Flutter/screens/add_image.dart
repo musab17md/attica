@@ -1,13 +1,13 @@
-import 'package:ecom/constant/navbar.dart';
-import 'package:ecom/core/api_client.dart';
-import 'package:ecom/screens/upload_image.dart';
+import 'package:attica/constant/navbar.dart';
+import 'package:attica/core/api_client.dart';
+import 'package:attica/screens/upload_image.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
-import 'package:ecom/constant/urls.dart' as urls;
+import 'package:attica/constant/urls.dart' as urls;
 
 class AddProductImage extends StatefulWidget {
   const AddProductImage({super.key});

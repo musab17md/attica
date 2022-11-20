@@ -1,4 +1,5 @@
-import 'package:ecom/constant/navbar.dart';
+import 'package:attica/constant/navbar.dart';
+import 'package:attica/constant/urls.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
@@ -39,8 +40,7 @@ class _MyWidgetState extends State<MyWidget> {
   }
 
   post() async {
-    var request = http.MultipartRequest(
-        'POST', Uri.parse('http://192.168.0.134:8123/pics/'));
+    var request = http.MultipartRequest('POST', addPics);
     request.fields.addAll({
       'vendor': 'musab34',
       'time': '10:21:00',

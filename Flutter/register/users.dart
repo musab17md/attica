@@ -1,7 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:ecom/constant/navbar.dart';
+import 'package:attica/constant/navbar.dart';
+import 'package:attica/constant/urls.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -15,7 +16,7 @@ class UserControl extends StatefulWidget {
 class _UserControlState extends State<UserControl> {
   var mydata;
   Future getUsers() async {
-    Uri listPics = Uri.http('192.168.0.134:8123', '/users/');
+    Uri listPics = urlUsers;
     final headers = {HttpHeaders.contentTypeHeader: 'application/json'};
     final response = await http.get(listPics, headers: headers);
     debugPrint(response.body);

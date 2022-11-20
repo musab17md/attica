@@ -26,23 +26,16 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['id','type','username','password','branch','agent','date','active']
-    # def validate_username(self, value):
-    #     if bool(re.search(pattern="\s",string=value)):
-    #         raise serializers.ValidationError("Username should not contain spaces")
-    #     if bool(re.search(pattern="[^a-zA-Z0-9]",string=value)):
-    #         raise serializers.ValidationError("Allowed characters are alphabet and numbers")
-    #     if User.objects.filter(username=value).exists():
-    #         raise serializers.ValidationError("A user with this username already exists!")
-    #     return value
+
     
-    def validate_password(self, value):
-        if bool(re.search(pattern="[\s\r\n]",string=value)):
-            raise serializers.ValidationError("Password should not contain spaces")
-        if len(value) < 5:
-            raise serializers.ValidationError("Password length should be more then 5 characters")
-        # TO DO: Implement week password detect
-        # TO DO: Password change otp
-        return value
+    # def validate_password(self, value):
+    #     if bool(re.search(pattern="[\s\r\n]",string=value)):
+    #         raise serializers.ValidationError("Password should not contain spaces")
+    #     if len(value) < 5:
+    #         raise serializers.ValidationError("Password length should be more then 5 characters")
+    #     # TO DO: Implement week password detect
+    #     # TO DO: Password change otp
+    #     return value
 
 
 class UserTypeSerializer(serializers.ModelSerializer):

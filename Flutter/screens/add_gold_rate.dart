@@ -1,8 +1,9 @@
 import 'dart:convert';
 
-import 'package:ecom/constant/navbar.dart';
-import 'package:ecom/constant/vars.dart';
-import 'package:ecom/core/api_client.dart';
+import 'package:attica/constant/navbar.dart';
+import 'package:attica/constant/urls.dart';
+import 'package:attica/constant/vars.dart';
+import 'package:attica/core/api_client.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:intl/intl.dart';
@@ -67,8 +68,7 @@ class _GoldRateWidgetState extends State<GoldRateWidget> {
       'time': time,
       'date': date,
     };
-    Response response = await ApiClient()
-        .postJson(Uri.http('192.168.0.134:8123', '/gold/'), jsonEncode(body));
+    Response response = await ApiClient().postJson(urlGold, jsonEncode(body));
     debugPrint(jsonDecode(response.body).toString());
   }
 

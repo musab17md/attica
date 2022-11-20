@@ -1,8 +1,8 @@
 import 'dart:convert';
 
-import 'package:ecom/constant/navbar.dart';
-import 'package:ecom/core/api_client.dart';
-import 'package:ecom/provider/AddProductForm.dart';
+import 'package:attica/constant/navbar.dart';
+import 'package:attica/core/api_client.dart';
+import 'package:attica/provider/AddProductForm.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

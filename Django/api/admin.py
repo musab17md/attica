@@ -24,4 +24,5 @@ admin.site.register(Noti, NotiAdmin)
 admin.site.register(Pics2, Pics2Admin)
 admin.site.register(User, UserAdmin)
 admin.site.register(Gold, GoldAdmin)
+admin.site.register(Group)
 

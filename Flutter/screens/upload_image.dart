@@ -1,4 +1,5 @@
-import 'package:ecom/constant/navbar.dart';
+import 'package:attica/constant/navbar.dart';
+import 'package:attica/constant/urls.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:flutter/material.dart';
@@ -73,8 +74,7 @@ class _UploadState extends State<Upload> {
     //   "status": "Pending"
     // });
 
-    var request = http.MultipartRequest(
-        'POST', Uri.parse('http://192.168.0.134:8123/pics/'));
+    var request = http.MultipartRequest('POST', addPics);
     request.fields.addAll({
       'vendor': 'musab',
       'time': '10:21:00',

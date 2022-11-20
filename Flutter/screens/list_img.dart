@@ -1,11 +1,11 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:ecom/constant/navbar.dart';
-import 'package:ecom/screens/list_img_view.dart';
+import 'package:attica/constant/navbar.dart';
+import 'package:attica/screens/list_img_view.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:ecom/constant/urls.dart' as urls;
+import 'package:attica/constant/urls.dart' as urls;
 
 String selectedFilter = "All";
 

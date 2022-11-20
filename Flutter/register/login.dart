@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'package:ecom/core/api_client.dart';
-import 'package:ecom/main.dart';
+import 'package:attica/core/api_client.dart';
+import 'package:attica/main.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 

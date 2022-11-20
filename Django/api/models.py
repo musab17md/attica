@@ -56,7 +56,9 @@ class Noti(models.Model):
     grossw = models.CharField(db_column='grossW', max_length=100)  # Field name made lowercase.
     stonew = models.CharField(db_column='stoneW', max_length=120)  # Field name made lowercase.
     makingc = models.CharField(db_column='makingC', max_length=120)  # Field name made lowercase.
+    makingcamt = models.CharField(max_length=120)
     wastagec = models.CharField(db_column='wastageC', max_length=120)  # Field name made lowercase.
+    wastagecamt = models.CharField(max_length=120)
     stonec = models.CharField(db_column='stoneC', max_length=150)  # Field name made lowercase.
     netw = models.CharField(db_column='netW', max_length=120)  # Field name made lowercase.
     neta = models.CharField(db_column='NetA', max_length=160)  # Field name made lowercase.

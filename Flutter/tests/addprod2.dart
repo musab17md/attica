@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'package:ecom/constant/navbar.dart';
-import 'package:ecom/core/api_client.dart';
+import 'package:attica/constant/navbar.dart';
+import 'package:attica/core/api_client.dart';
 import 'package:flutter/material.dart';
 
 class AddProduct2 extends StatefulWidget {
