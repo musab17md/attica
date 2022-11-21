@@ -1,4 +1,4 @@
-import 'package:attica/constant/navbar.dart';
+import '../constant/navbar.dart';
 import 'package:flutter/material.dart';
 
 class PhotoHome extends StatelessWidget {

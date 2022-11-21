@@ -1,5 +1,5 @@
-import 'package:attica/constant/navbar.dart';
-import 'package:attica/constant/urls.dart';
+import '../constant/navbar.dart';
+import '../constant/urls.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:flutter/material.dart';

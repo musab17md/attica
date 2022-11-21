@@ -1,14 +1,13 @@
-import 'package:attica/provider/SwitchUser.dart';
-import 'package:attica/register/login.dart';
-import 'package:attica/screens/home_design1.dart';
-import 'package:attica/screens/list_prod.dart';
-import 'package:attica/screens/list_prod_by_id.dart';
-import 'package:attica/screens/upload_image.dart';
-import 'package:attica/tests/addprod4.dart';
-import 'package:attica/screens/list_img.dart';
-import 'package:attica/tests/dropdowntest.dart';
-import 'package:attica/tests/test.dart';
-import 'package:attica/tests/test3.dart';
+import '../provider/SwitchUser.dart';
+import '../register/login.dart';
+import '../screens/home_design1.dart';
+import '../screens/list_prod.dart';
+import '../screens/list_prod_by_id.dart';
+import '../screens/upload_image.dart';
+import '../tests/addprod4.dart';
+import '../tests/dropdowntest.dart';
+import '../tests/test.dart';
+import '../tests/test3.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -99,24 +98,36 @@ class NavDraw extends StatelessWidget {
             },
           ),
           const Divider(),
+          // if (context.watch<SwithUser>().currUser == "Vendor")
+          //   ListTile(
+          //     title: const Text("Add Product"),
+          //     leading: const Icon(Icons.add),
+          //     onTap: () {
+          //       // Navigator.pop(context);
+          //       Navigator.popAndPushNamed(context, '/addProd');
+          //     },
+          //   ),
           if (context.watch<SwithUser>().currUser == "Vendor")
             ListTile(
               title: const Text("Add Product"),
               leading: const Icon(Icons.add),
               onTap: () {
-                // Navigator.pop(context);
-                Navigator.popAndPushNamed(context, '/addProd');
+                Navigator.pop(context);
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: ((context) => const AddProduct4())));
               },
             ),
-          if (context.watch<SwithUser>().currUser == "Vendor")
-            ListTile(
-              title: const Text("Add Gold Rate"),
-              leading: const Icon(Icons.add),
-              onTap: () {
-                // Navigator.pop(context);
-                Navigator.popAndPushNamed(context, '/addGold');
-              },
-            ),
+          // if (context.watch<SwithUser>().currUser == "Vendor")
+          //   ListTile(
+          //     title: const Text("Add Gold Rate"),
+          //     leading: const Icon(Icons.add),
+          //     onTap: () {
+          //       // Navigator.pop(context);
+          //       Navigator.popAndPushNamed(context, '/addGold');
+          //     },
+          //   ),
           if (context.watch<SwithUser>().currUser == "Photographer")
             ListTile(
               title: const Text("Product Upload"),
@@ -159,18 +170,18 @@ class NavDraw extends StatelessWidget {
                 Navigator.popAndPushNamed(context, '/listPhoto');
               },
             ),
-          if (context.watch<SwithUser>().currUser == "Admin")
-            ListTile(
-              title: const Text("List Uploaded Images"),
-              leading: const Icon(Icons.list_alt_rounded),
-              onTap: () {
-                Navigator.pop(context);
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: ((context) => const ListImages())));
-              },
-            ),
+          // if (context.watch<SwithUser>().currUser == "Admin")
+          //   ListTile(
+          //     title: const Text("List Uploaded Images"),
+          //     leading: const Icon(Icons.list_alt_rounded),
+          //     onTap: () {
+          //       Navigator.pop(context);
+          //       Navigator.push(
+          //           context,
+          //           MaterialPageRoute(
+          //               builder: ((context) => const ListImages())));
+          //     },
+          //   ),
           const Divider(),
           ListTile(
             title: const Text("Settings"),
@@ -221,6 +232,14 @@ class NavDraw extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                           builder: ((context) => const TestApp())));
+                },
+              ),
+              ListTile(
+                title: const Text("Add Product"),
+                leading: const Icon(Icons.add),
+                onTap: () {
+                  // Navigator.pop(context);
+                  Navigator.popAndPushNamed(context, '/addProd');
                 },
               ),
               ListTile(

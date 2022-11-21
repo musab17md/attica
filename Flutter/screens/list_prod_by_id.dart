@@ -1,10 +1,10 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:attica/constant/navbar.dart';
-import 'package:attica/constant/urls.dart';
-import 'package:attica/constant/vars.dart';
-import 'package:attica/screens/list_prod_view.dart';
+import '../constant/navbar.dart';
+import '../constant/urls.dart';
+import '../constant/vars.dart';
+import '../screens/list_prod_view.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 

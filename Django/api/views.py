@@ -108,8 +108,9 @@ class get_photographer_ornament(generics.ListAPIView):
     
     def get_queryset(self):
         ornament = self.kwargs['ornament']
+        vendor_id = self.kwargs['vendor_id']
         ornament = ornament.replace("_", " ")
-        return Pics2.objects.filter(ornament = ornament)
+        return Pics2.objects.filter(ornament = ornament, vendor_id = vendor_id, status = "Approved")
 
 
 # class get_users(generics.ListAPIView):

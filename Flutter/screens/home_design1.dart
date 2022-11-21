@@ -1,5 +1,5 @@
-import 'package:attica/constant/navbar.dart';
-import 'package:attica/widgets/banner_slider.dart';
+import '../constant/navbar.dart';
+import '../widgets/banner_slider.dart';
 import 'package:flutter/material.dart';
 
 class MyHome extends StatelessWidget {

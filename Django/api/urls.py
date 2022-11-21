@@ -21,7 +21,7 @@ urlpatterns = [
     path('pics/', views.api_pics.as_view(), name="pics"),
     path('pics/vendor/<slug:vendor_id>/', views.pics_vendor.as_view(), name="pics_vendor"),
     path('pics/<int:pk>/', views.pics_ReUpDeApi.as_view(), name="pics_edit"),
-    path('pics/<slug:ornament>/', views.get_photographer_ornament.as_view(), name="get_photographer_ornament"),
+    path('pics/<slug:ornament>/<slug:vendor_id>/', views.get_photographer_ornament.as_view(), name="get_photographer_ornament"),
     
     
     # path('pics2/', views.api_pics2.as_view(), name="pics2"),

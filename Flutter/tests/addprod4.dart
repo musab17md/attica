@@ -1,17 +1,13 @@
 import 'dart:convert';
 
-import 'package:attica/constant/navbar.dart';
-import 'package:attica/core/api_client.dart';
+import '../constant/navbar.dart';
+import '../core/api_client.dart';
 import 'package:flutter/material.dart';
-import 'package:attica/constant/vars.dart' as vars;
-import 'package:http/http.dart';
+import '../constant/vars.dart' as vars;
+import '../constant/urls.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-import '../constant/urls.dart';
 import 'package:http/http.dart' as http;
-
-import '../constant/vars.dart';
 
 class AddProduct4 extends StatelessWidget {
   const AddProduct4({super.key});
@@ -126,14 +122,33 @@ class _FormWidgetState extends State<FormWidget> {
   }
 
   var mydata;
+  // List mydataFiltered = [];
   getPhotographerImages() async {
+    List currentUserId = await getUser();
     String spacelessOrnament = dropDownObj._ornament.replaceAll(" ", "_");
-    final uri = Uri.http(urlMain, '/pics/$spacelessOrnament/');
+    final uri =
+        Uri.http(urlMain, '/pics/$spacelessOrnament/${currentUserId[1]}/');
     final headers = {'Content-Type': 'application/json'};
     final response = await http.get(uri, headers: headers);
-    debugPrint(response.body);
-    mydata = jsonDecode(response.body);
-    return mydata;
+    mydata = await jsonDecode(response.body);
+    debugPrint("GetPhotoImages: $mydata");
+    debugPrint("GetPhotoImages Length: ${mydata.length}");
+
+    // mydataFiltered = [];
+    // for (var d in mydata) {
+    //   debugPrint("AddProd4: for loop mydata > $d");
+    //   debugPrint("AddProd4: for loop mydata vendor_id > ${d["vendor_id"]}");
+    //   debugPrint("AddProd4: for loop mydata status > ${d["status"]}");
+    //   if (d["status"] == "Approved") {
+    //     mydataFiltered.insert(0, d);
+    //   }
+    // }
+
+    if (response.statusCode.toString()[0] == "2") {
+      return "success";
+    } else {
+      return null;
+    }
   }
 
   var totalweight;
@@ -189,14 +204,22 @@ class _FormWidgetState extends State<FormWidget> {
       "qty": _quantityController.text,
       "vendor": user[0],
       "vendor_id": user[1].toString(),
-      "submitdate": date.toString(),
+      "submitdate": vars.date.toString(),
       "image": _selectedPhotoId.toString(),
       "status": status,
     };
-    debugPrint(body.toString());
+    debugPrint("Prod4: submitform > $body");
     Uri url = Uri.parse(urlNoti);
-    Response response = await ApiClient().postJson(url, jsonEncode(body));
-    debugPrint(jsonDecode(response.body).toString());
+    http.Response response = await ApiClient().postJson(url, jsonEncode(body));
+    debugPrint("Prod4: submitform response > ${jsonDecode(response.body)}");
+
+    // Mark Assigned to Photographers Pic
+    if (response.statusCode.toString()[0] == "2") {
+      String body2 = jsonEncode({"status": "Assigned"});
+      http.Response response2 = await ApiClient()
+          .patchJson("http://$urlMain/pics/$_selectedPhotoId/", body2);
+      debugPrint("AddProd4: Pic Assigned statuscode > ${response2.statusCode}");
+    }
   }
 
   @override
@@ -211,35 +234,45 @@ class _FormWidgetState extends State<FormWidget> {
     _stoneChargeController.addListener(_calculate);
   }
 
+  // @override
+  // Widget build(BuildContext context) {
+  //   return SingleChildScrollView(
+  //     child: Padding(
+  //       padding: const EdgeInsets.all(8.0),
+  //       child: FutureBuilder(
+  //           future: getRate(),
+  //           builder: (context, snapshot) {
+  //             if (snapshot.data == null) {
+  //               return SizedBox(
+  //                 height: 680,
+  //                 child: Center(
+  //                   child: AlertDialog(
+  //                     content: const Text("Please add gold rate first"),
+  //                     actions: [
+  //                       TextButton(
+  //                         onPressed: () {
+  //                           Navigator.of(context).pop();
+  //                           Navigator.pushNamed(context, '/addGold');
+  //                         },
+  //                         child: const Text('Okay'),
+  //                       ),
+  //                     ],
+  //                   ),
+  //                 ),
+  //               );
+  //             }
+  //             return formWidget(context);
+  //           }),
+  //     ),
+  //   );
+  // }
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: FutureBuilder(
-            future: getRate(),
-            builder: (context, snapshot) {
-              if (snapshot.data == null) {
-                return SizedBox(
-                  height: 680,
-                  child: Center(
-                    child: AlertDialog(
-                      content: const Text("Please add gold rate first"),
-                      actions: [
-                        TextButton(
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                            Navigator.pushNamed(context, '/addGold');
-                          },
-                          child: const Text('Okay'),
-                        ),
-                      ],
-                    ),
-                  ),
-                );
-              }
-              return formWidget(context);
-            }),
+        child: formWidget(context),
       ),
     );
   }
@@ -392,7 +425,6 @@ class _FormWidgetState extends State<FormWidget> {
                   child: ElevatedButton(
                     onPressed: () {
                       if (dropDownObj._ornament != "") {
-                        getPhotographerImages();
                         showDialog(
                             context: context,
                             builder: (context) {
@@ -401,12 +433,11 @@ class _FormWidgetState extends State<FormWidget> {
                                   builder: (context, snapshot) {
                                     if (snapshot.hasData) {
                                       return ListView.builder(
-                                          itemCount: mydata == null
-                                              ? 0
-                                              : mydata?.length,
+                                          itemCount: mydata.length,
                                           itemBuilder: (BuildContext context,
                                               int index) {
-                                            debugPrint(mydata.toString());
+                                            debugPrint(
+                                                "future built get photos : $mydata");
                                             return Padding(
                                               padding:
                                                   const EdgeInsets.all(8.0),
@@ -416,7 +447,7 @@ class _FormWidgetState extends State<FormWidget> {
                                                           ["id"]
                                                       .toString();
                                                   _selectedPhotoUrl =
-                                                      mydata[0]["model1"];
+                                                      mydata[index]["model1"];
                                                   setState(() {});
                                                   Navigator.pop(context);
                                                 },
@@ -424,16 +455,22 @@ class _FormWidgetState extends State<FormWidget> {
                                                   child: Column(
                                                     children: [
                                                       Text(
-                                                          "By: ${mydata[0]["vendor"]}"),
+                                                          "Product id #${mydata[index]["id"]}"),
                                                       Text(
-                                                          "Date: ${mydata[0]["date"]}"),
+                                                          "For: Vendor #${mydata[index]["vendor"]}"),
+                                                      Text(
+                                                          "By: Photographer #${mydata[index]["photographer_id"]}"),
+                                                      Text(
+                                                          "Status: ${mydata[index]["status"]}"),
+                                                      Text(
+                                                          "Date: ${mydata[index]["date"]}"),
                                                       SizedBox(
                                                         height: 200,
                                                         width: 200,
                                                         child: PhotoView(
                                                           imageProvider:
                                                               NetworkImage(
-                                                                  mydata[0][
+                                                                  mydata[index][
                                                                       "model1"]),
                                                         ),
                                                       ),
@@ -444,6 +481,7 @@ class _FormWidgetState extends State<FormWidget> {
                                             );
                                           });
                                     }
+
                                     return const Center(
                                         child: CircularProgressIndicator());
                                   });

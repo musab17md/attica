@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'dart:math' as math;
-import 'package:attica/constant/image_view.dart';
-import 'package:attica/constant/navbar.dart';
+import '../constant/image_view.dart';
+import '../constant/navbar.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:double_back_to_close_app/double_back_to_close_app.dart';

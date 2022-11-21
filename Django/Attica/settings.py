@@ -21,12 +21,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-9!cv*e7atlr_chcx=)z=$sf$(s0jxr%qpil%ze@esd9jz-gf(5'
+SECRET_KEY = 'django-insecure-1^h6k8n)_6&7%7-t9ep@k!m4x1)a8-w0#ir&d3%f*d&5z50d54'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*',]
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -48,13 +48,12 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 from django.contrib.messages import constants as messages
 MESSAGE_TAGS = {
-    messages.DEBUG: 'alert-secondary',
-    messages.INFO: 'alert-info',
-    messages.SUCCESS: 'alert-success',
-    messages.WARNING: 'alert-warning',
-    messages.ERROR: 'alert-danger',
-    }
-
+        messages.DEBUG: 'alert-secondary',
+        messages.INFO: 'alert-info',
+        messages.SUCCESS: 'alert-success',
+        messages.WARNING: 'alert-warning',
+        messages.ERROR: 'alert-danger',
+ }
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -96,6 +95,21 @@ WSGI_APPLICATION = 'Attica.wsgi.application'
 #         'NAME': BASE_DIR / 'db.sqlite3',
 #     }
 # }
+
+
+# Minam Laptop database
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'flutter',
+#         'USER': 'flutter',
+#         'PASSWORD': '',
+#         'HOST':'192.168.0.75',
+#         'PORT':'3306',
+#     }
+# }
+
+# Local PC database
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',

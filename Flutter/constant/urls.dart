@@ -1,4 +1,4 @@
-String urlMain = '192.168.0.142:8123';
+String urlMain = '192.168.0.134:8123';
 String urlModel = "http://$urlMain/all/product/Productmodel/";
 String urlProd = "http://$urlMain/all/product/Productpic/";
 String urlVideo = "http://$urlMain/all/product/Productvideo/";

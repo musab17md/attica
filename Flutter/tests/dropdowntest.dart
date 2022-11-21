@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:attica/constant/vars.dart' as vars;
+import '../constant/vars.dart' as vars;
 
 class DropDownTest extends StatefulWidget {
   const DropDownTest({super.key});
@@ -23,17 +23,17 @@ class _DropDownTestState extends State<DropDownTest> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Title"),
+        title: const Text("Title"),
       ),
       body: Column(
         children: [
-          Text("data"),
+          const Text("data"),
           DropDownForm(obj: daysObj),
           ElevatedButton(
             onPressed: () {
               debugPrint(daysObj.days);
             },
-            child: Text("test"),
+            child: const Text("test"),
           ),
         ],
       ),
@@ -50,7 +50,7 @@ class DropDownForm extends StatelessWidget {
     return SizedBox(
       width: double.infinity,
       child: DropdownButtonFormField(
-        hint: Text("widget.name"),
+        hint: const Text("widget.name"),
         decoration: const InputDecoration(
           border: OutlineInputBorder(),
         ),

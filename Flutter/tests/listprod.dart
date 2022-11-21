@@ -1,8 +1,8 @@
 import 'dart:convert';
 
-import 'package:attica/constant/navbar.dart';
-import 'package:attica/constant/urls.dart';
-import 'package:attica/tests/addprod.dart';
+import '../constant/navbar.dart';
+import '../constant/urls.dart';
+import '../tests/addprod.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 

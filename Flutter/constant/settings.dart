@@ -1,7 +1,7 @@
-import 'package:attica/constant/navbar.dart';
-import 'package:attica/core/api_client.dart';
-import 'package:attica/core/theme.dart';
-import 'package:attica/register/login.dart';
+import '../constant/navbar.dart';
+import '../core/api_client.dart';
+import '../core/theme.dart';
+import '../register/login.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';

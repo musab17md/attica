@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:attica/constant/urls.dart';
+import '../constant/urls.dart';
 import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -65,9 +65,8 @@ class ApiClient {
       // print("ApiClient: set user type in provider UserType");
       // UserType().setUserType(resp["type"]);
     }
-    print("ApiClient: ");
-    print(response.statusCode);
-    print(response.body.toString());
+    print("ApiClient: Login2 > ${response.statusCode}");
+    print("ApiClient: Login2 > ${response.body}");
     return response;
   }
 
@@ -77,7 +76,7 @@ class ApiClient {
       'username': user,
       'password': newpass,
     };
-    print(data.toString());
+    print("ApiClient: changepass > $data");
     var body = json.encode(data);
     var response = await http.post(
       Uri.parse(authEndpoint),
@@ -117,7 +116,7 @@ class ApiClient {
 
     for (var i = 0; i < files.length; i++) {
       if (files[i].toString().contains(name)) {
-        print(files[i].toString());
+        print("ApiClient: getdirfile > ${files[i]}");
         return files[i].toString();
       }
     }
@@ -125,9 +124,9 @@ class ApiClient {
 
   Future postData(List myData) async {
     String authEndpoint = "http://$urlMain/noti/";
-    print(myData[0]);
-    print(myData[17]);
-    print(myData.toString());
+    print("Apiclient: postData first > ${myData[0]}");
+    print("Apiclient: postData 17th > ${myData[17]}");
+    print("ApiClient: postData myData > $myData");
     Map<String, String> data = {
       "metal": myData[0],
       "ornament": myData[1],
@@ -157,27 +156,14 @@ class ApiClient {
     //   Uri.parse(authEndpoint),
     //   body: body,
     // );
-    print(response.statusCode);
-    print(response.headers.toString());
+    print("ApiClient: postData statuscode > ${response.statusCode}");
+    print("ApiClient: headers > ${response.headers}");
     var myResponse = http.Response.fromStream(response);
-    print(myResponse);
+    print("ApiClient: postData myResponse > $myResponse");
     return myResponse;
   }
 
-  patchApprove(authEndpoint, body) async {
-    // String token = await getToken();
-    http.Response response = await http.patch(
-      Uri.parse(authEndpoint),
-      headers: {
-        "Content-Type": "application/json",
-        // "Authorization": "Token $token"
-      },
-      body: body,
-    );
-    return response;
-  }
-
-  patchDeny(authEndpoint, body) async {
+  patchJson(authEndpoint, body) async {
     // String token = await getToken();
     http.Response response = await http.patch(
       Uri.parse(authEndpoint),

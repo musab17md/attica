@@ -1,15 +1,15 @@
-import 'package:attica/core/api_client.dart';
-import 'package:attica/provider/SwitchUser.dart';
-import 'package:attica/register/login.dart';
-import 'package:attica/screens/add_prod_3.dart';
-import 'package:attica/screens/home.dart';
-import 'package:attica/screens/home_admin.dart';
-import 'package:attica/screens/home_photog.dart';
-import 'package:attica/screens/home_vendor.dart';
-import 'package:attica/screens/list_img.dart';
-import 'package:attica/screens/list_photo_by_id.dart';
-import 'package:attica/screens/list_prod.dart';
-import 'package:attica/screens/list_prod_by_id.dart';
+import '../core/api_client.dart';
+import '../provider/SwitchUser.dart';
+import '../register/login.dart';
+import '../screens/add_prod_3.dart';
+import '../screens/home.dart';
+import '../screens/home_admin.dart';
+import '../screens/home_photog.dart';
+import '../screens/home_vendor.dart';
+import '../screens/list_img.dart';
+import '../screens/list_photo_by_id.dart';
+import '../screens/list_prod.dart';
+import '../screens/list_prod_by_id.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:provider/provider.dart';
@@ -25,7 +25,7 @@ void main() {
   WidgetsFlutterBinding.ensureInitialized();
   SharedPreferences.getInstance().then((prefs) {
     var savedTheme = prefs.getBool('theme') ?? false;
-    debugPrint(savedTheme.toString());
+    debugPrint("Main: savedTheme > $savedTheme");
     runApp(
       MultiProvider(
         providers: [
@@ -49,31 +49,36 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  getToken() async {
-    final prefs = await SharedPreferences.getInstance();
-    String? token = prefs.getString('token');
-    debugPrint(token);
-    return token;
-  }
+  // getToken() async {
+  //   final prefs = await SharedPreferences.getInstance();
+  //   String? token = prefs.getString('token');
+  //   debugPrint("Main: token > $token");
+  //   return token;
+  // }
+
+  List? keys;
+  String type = "";
 
   checkUser() async {
     final prefs = await SharedPreferences.getInstance();
     debugPrint("Main: Checking userkey in sharedpref");
-    List? keys = prefs.getStringList('userkey');
+    keys = prefs.getStringList('userkey');
+    type = keys![1];
     debugPrint("Main: sharedpref keys > $keys");
     if (keys == null) {
       debugPrint("Main: userKey list is null. Returning to login");
       return "login";
     }
-    Response response = await ApiClient().login2(keys[2], keys[3]);
-    if (keys[7] == "0") {
+    if (keys![7] == "0") {
       debugPrint("Main: user inactive returning inactive page");
       return "inactive";
     }
+    Response response = await ApiClient().login2(keys![2], keys![3]);
     if (response.statusCode == 404) {
       debugPrint("Main: response.statusCode == 404. Returning to login");
       return "login";
     }
+
     return "home";
   }
 
@@ -87,7 +92,7 @@ class _MyAppState extends State<MyApp> {
       title: 'ATTICA',
       routes: <String, WidgetBuilder>{
         '/main': (BuildContext context) => const MyApp(),
-        '/adminHome': (BuildContext context) => const AdminHome(),
+        '/adminHome': (BuildContext context) => AdminHome(),
         '/vendorHome': (BuildContext context) => const VendorHome(),
         '/photogHome': (BuildContext context) => const PhotoHome(),
         '/home': (BuildContext context) => const MyHome(),
@@ -112,7 +117,15 @@ class _MyAppState extends State<MyApp> {
             }
             if (snapshot.data == "home") {
               debugPrint("Main: snapshot.data redirecting Home");
-              return const MyHome();
+              if (type == "Admin") {
+                return AdminHome();
+              }
+              if (type == "Vendor") {
+                return const VendorHome();
+              }
+              if (type == "Photographer") {
+                return const PhotoHome();
+              }
             }
             if (snapshot.data == "inactive") {
               debugPrint("Main: snapshot.data redirecting Inactive");

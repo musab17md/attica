@@ -1,11 +1,12 @@
 import 'dart:convert';
 
-import 'package:attica/core/api_client.dart';
-import 'package:attica/main.dart';
+import '../main.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../core/api_client.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);

@@ -1,14 +1,14 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:attica/constant/image_view.dart';
-import 'package:attica/constant/urls.dart';
-import 'package:attica/core/api_client.dart';
-import 'package:attica/screens/play_video.dart';
+import '../constant/image_view.dart';
+import '../constant/urls.dart';
+import '../core/api_client.dart';
+import '../screens/play_video.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:photo_view/photo_view.dart';
-import 'package:attica/constant/urls.dart' as urls;
+import '../constant/urls.dart' as urls;
 
 class ViewImage extends StatefulWidget {
   final myData;
@@ -125,7 +125,7 @@ class _ViewImageState extends State<ViewImage> {
     String authEndpoint = "http://$urlMain/pics/${widget.myData["id"]}/";
     debugPrint(authEndpoint);
     String body = jsonEncode({"status": "Rejected"});
-    Response response = await ApiClient().patchDeny(authEndpoint, body);
+    Response response = await ApiClient().patchJson(authEndpoint, body);
     debugPrint(response.toString());
     if (response.statusCode.toString()[0] == "2") {
       showDialog(
@@ -168,7 +168,7 @@ class _ViewImageState extends State<ViewImage> {
     String authEndpoint = "http://$urlMain/pics/${widget.myData["id"]}/";
     debugPrint(authEndpoint);
     String body = jsonEncode({"status": "Approved"});
-    Response response = await ApiClient().patchApprove(authEndpoint, body);
+    Response response = await ApiClient().patchJson(authEndpoint, body);
     debugPrint(response.toString());
     if (response.statusCode.toString()[0] == "2") {
       showDialog(

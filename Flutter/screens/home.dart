@@ -1,5 +1,5 @@
-import 'package:attica/constant/navbar.dart';
-import 'package:attica/provider/SwitchUser.dart';
+import '../constant/navbar.dart';
+import '../provider/SwitchUser.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -13,10 +13,12 @@ class MyHome extends StatefulWidget {
 
 class _MyHomeState extends State<MyHome> {
   String userType = "";
+  List userdetail = [];
 
   getType() async {
     final prefs = await SharedPreferences.getInstance();
-    userType = prefs.getStringList("userkey")![1];
+    userdetail = prefs.getStringList("userkey")!;
+    userType = userdetail[1];
     int userid = 0;
     if (userType == "Admin") {
       userid = 0;
@@ -42,7 +44,16 @@ class _MyHomeState extends State<MyHome> {
           future: getType(),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
-              return Text(userType);
+              return SizedBox(
+                width: double.infinity,
+                height: 500,
+                child: Column(
+                  children: [
+                    Text(userType),
+                    Text("Username : ${userdetail[2]}"),
+                  ],
+                ),
+              );
             }
             return Container();
           }),

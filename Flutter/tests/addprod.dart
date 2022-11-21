@@ -1,8 +1,8 @@
 import 'dart:convert';
 
-import 'package:attica/constant/navbar.dart';
-import 'package:attica/core/api_client.dart';
-import 'package:attica/provider/AddProductForm.dart';
+import '../constant/navbar.dart';
+import '../core/api_client.dart';
+import '../provider/AddProductForm.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

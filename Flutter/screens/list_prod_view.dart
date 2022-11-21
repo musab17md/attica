@@ -1,9 +1,9 @@
 import 'dart:convert';
 
-import 'package:attica/constant/urls.dart';
-import 'package:attica/core/api_client.dart';
-import 'package:attica/provider/SwitchUser.dart';
-import 'package:attica/screens/play_video.dart';
+import '../constant/urls.dart';
+import '../core/api_client.dart';
+import '../provider/SwitchUser.dart';
+import '../screens/play_video.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:photo_view/photo_view.dart';
@@ -111,7 +111,7 @@ class _ViewProductState extends State<ViewProduct> {
 
     debugPrint(authEndpoint);
     String body = jsonEncode({"status": "Approved"});
-    Response response = await ApiClient().patchApprove(authEndpoint, body);
+    Response response = await ApiClient().patchJson(authEndpoint, body);
     debugPrint(response.toString());
     if (response.statusCode.toString()[0] == "2") {
       showDialog(
@@ -125,7 +125,7 @@ class _ViewProductState extends State<ViewProduct> {
                     onPressed: () {
                       Navigator.pushNamedAndRemoveUntil(
                           context, "/home", (route) => false);
-                      Navigator.pushNamed(context, "/listProd");
+                      Navigator.pushNamed(context, "/listAllProd");
                     },
                     child: const Text("Done"))
               ],
@@ -154,7 +154,7 @@ class _ViewProductState extends State<ViewProduct> {
     String authEndpoint = "http://$urlMain/noti/${widget.myData["id"]}/";
     debugPrint(authEndpoint);
     String body = jsonEncode({"status": "Rejected"});
-    Response response = await ApiClient().patchDeny(authEndpoint, body);
+    Response response = await ApiClient().patchJson(authEndpoint, body);
     debugPrint(response.toString());
     if (response.statusCode.toString()[0] == "2") {
       showDialog(

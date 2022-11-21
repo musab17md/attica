@@ -1,52 +1,80 @@
-import 'dart:convert';
+import 'package:ecom/widgets/banner_slider.dart';
+import 'package:ecom/widgets/graph_view.dart';
 
-import 'package:attica/constant/navbar.dart';
-import 'package:attica/core/api_client.dart';
+import '../constant/navbar.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AdminHome extends StatelessWidget {
-  const AdminHome({super.key});
+  AdminHome({super.key});
+
+  Future<List?> getUser() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getStringList("userkey");
+  }
+
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: const NavDraw(),
+      key: _scaffoldKey,
       appBar: AppBar(
-        title: const Text("916 Digital Gold"),
+        elevation: 0,
+        shadowColor: Colors.white,
+        backgroundColor: Colors.white,
+        leading: IconButton(
+          onPressed: () {
+            _scaffoldKey.currentState!.openDrawer();
+          },
+          icon: Icon(
+            Icons.all_inbox,
+            color: Colors.grey[700],
+          ),
+        ),
+        title: Text(
+          "916 Digital Gold",
+          style: TextStyle(color: Colors.grey[800]),
+        ),
       ),
-      body: const AdHome(),
+      drawer: const NavDraw(),
+      body: FutureBuilder(
+        future: getUser(),
+        builder: (context, snapshot) {
+          if (snapshot.data != null) {
+            return AdHome(
+              userDetail: snapshot.data,
+            );
+          }
+          return Container();
+        },
+      ),
     );
   }
 }
 
 class AdHome extends StatefulWidget {
-  const AdHome({super.key});
+  const AdHome({super.key, required this.userDetail});
+  final List? userDetail;
 
   @override
   State<AdHome> createState() => _AdHomeState();
 }
 
 class _AdHomeState extends State<AdHome> {
-  getUser() async {
-    // final prefs = await SharedPreferences.getInstance();
-    // String? token = prefs.getString("token");
-
-    ApiClient().userType();
-  }
+  List? userkey;
 
   @override
   Widget build(BuildContext context) {
     return Center(
       child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          const Text("Home Page (Admin)"),
-          ElevatedButton(
-              onPressed: () {
-                getUser();
-              },
-              child: Text("data"))
+        children: const [
+          BannerView2(),
+          Padding(
+            padding: EdgeInsets.all(8.0),
+            child: Text("Home Page (Admin)"),
+          ),
+          GraphView(),
         ],
       ),
     );
