@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import '../constant/vars.dart';
 import '../main.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
@@ -101,6 +102,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: MyColorOld().background(),
       resizeToAvoidBottomInset: true,
       appBar: AppBar(
         title: const Text("Login / Sign Up"),
@@ -108,21 +110,25 @@ class _LoginPageState extends State<LoginPage> {
       body: ListView(
         children: [
           const SizedBox(
-            height: 150,
+            height: 10,
           ),
           SizedBox(
             child: Column(
-              children: const [
-                Text(
-                  "916 DIGITAL GOLD",
-                  style: TextStyle(fontSize: 40.0),
+              children: [
+                // Text(
+                //   "916 DIGITAL GOLD",
+                //   style: TextStyle(fontSize: 40.0),
+                // ),
+                // Text("BUY ONLINE GOLD"),
+                SizedBox(
+                  height: 200,
+                  child: Image.asset("assets/attica_logo.png"),
                 ),
-                Text("BUY ONLINE GOLD"),
               ],
             ),
           ),
           const SizedBox(
-            height: 80,
+            height: 40,
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -137,6 +143,7 @@ class _LoginPageState extends State<LoginPage> {
                     "SIGN IN",
                     style: TextStyle(
                       fontSize: _signInActive ? 25.00 : 15.00,
+                      color: MyColorOld().icon1(),
                     ),
                   )),
               TextButton(
@@ -149,6 +156,7 @@ class _LoginPageState extends State<LoginPage> {
                     "SIGN UP",
                     style: TextStyle(
                       fontSize: _signInActive ? 15.00 : 25.00,
+                      color: MyColorOld().icon1(),
                     ),
                   )),
             ],
@@ -209,13 +217,16 @@ class _LoginPageState extends State<LoginPage> {
                 userLogin();
               },
               style: ElevatedButton.styleFrom(
-                  minimumSize:
-                      const Size(260, 50) // put the width and height you want
-                  ),
+                minimumSize:
+                    const Size(260, 50) // put the width and height you want
+                ,
+                backgroundColor: MyColorOld().icon2(),
+              ),
               child: const Text(
                 "Sign In",
                 style: TextStyle(
-                  fontSize: 25.00,
+                  fontSize: 20.00,
+                  color: Colors.black,
                 ),
               ),
             ),
@@ -268,14 +279,12 @@ class _LoginPageState extends State<LoginPage> {
             ElevatedButton(
               onPressed: () {},
               style: ElevatedButton.styleFrom(
-                  minimumSize:
-                      const Size(260, 50) // put the width and height you want
-                  ),
+                minimumSize: const Size(260, 50),
+                backgroundColor: MyColorOld().icon2(),
+              ),
               child: const Text(
                 "Sign Up",
-                style: TextStyle(
-                  fontSize: 25.00,
-                ),
+                style: TextStyle(fontSize: 20.00, color: Colors.black),
               ),
             ),
           ],

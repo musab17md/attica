@@ -167,7 +167,7 @@ class _ViewImageState extends State<ViewImage> {
   postApprove() async {
     String authEndpoint = "http://$urlMain/pics/${widget.myData["id"]}/";
     debugPrint(authEndpoint);
-    String body = jsonEncode({"status": "Approved"});
+    String body = jsonEncode({"status": "Accepted"});
     Response response = await ApiClient().patchJson(authEndpoint, body);
     debugPrint(response.toString());
     if (response.statusCode.toString()[0] == "2") {
@@ -209,12 +209,16 @@ class _ViewImageState extends State<ViewImage> {
 
   getButton(stat) {
     if (stat == "Rejected") {
-      return ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.red,
-          ),
-          onPressed: () {},
-          child: const Text("Delete"));
+      // return ElevatedButton(
+      //     style: ElevatedButton.styleFrom(
+      //       backgroundColor: Colors.red,
+      //     ),
+      //     onPressed: () {},
+      //     child: const Text("Delete"));
+      return const SizedBox(
+        height: 1,
+        width: 1,
+      );
     }
     if (stat == "Pending") {
       return Row(

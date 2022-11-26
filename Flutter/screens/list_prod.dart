@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:ecom/constant/vars.dart';
+
 import '../constant/navbar.dart';
 import '../screens/list_prod_view.dart';
 import 'package:flutter/material.dart';
@@ -58,6 +60,7 @@ class _ListProductState extends State<ListProduct> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: MyColorOld().background(),
       drawer: const NavDraw(),
       appBar: AppBar(
         title: const Text("List Products"),
@@ -85,14 +88,17 @@ class _ListProductState extends State<ListProduct> {
                       ],
                     ),
                     trailing: ElevatedButton(
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      ViewProduct(myData: mydata![index])));
-                        },
-                        child: const Text("View")),
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    ViewProduct(myData: mydata![index])));
+                      },
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.grey[700]),
+                      child: const Text("View"),
+                    ),
                     // children: [
                     //   ListTile(
                     //     title: Text(mydata![index]["qty"].toString()),
@@ -139,13 +145,6 @@ class _ListProductState extends State<ListProduct> {
                         const SizedBox(height: 10),
                         ElevatedButton(
                             onPressed: () {
-                              setMydata("Pending");
-                              Navigator.pop(context);
-                            },
-                            child: const Text("Pending")),
-                        const SizedBox(height: 10),
-                        ElevatedButton(
-                            onPressed: () {
                               setMydata("Approved");
                               Navigator.pop(context);
                             },
@@ -157,6 +156,13 @@ class _ListProductState extends State<ListProduct> {
                               Navigator.pop(context);
                             },
                             child: const Text("Rejected")),
+                        const SizedBox(height: 10),
+                        ElevatedButton(
+                            onPressed: () {
+                              setMydata("Assigned");
+                              Navigator.pop(context);
+                            },
+                            child: const Text("Assigned")),
                       ],
                     ),
                   ),

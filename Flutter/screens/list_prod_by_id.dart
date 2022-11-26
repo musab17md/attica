@@ -28,6 +28,7 @@ class _ListProductOfVendorState extends State<ListProductOfVendor> {
     final response = await http.get(uri, headers: headers);
     debugPrint(response.body);
     data = jsonDecode(response.body);
+    debugPrint("ListVendorProd: getData length > ${data!.length}");
     setState(() {
       mydata = data;
     });
@@ -60,6 +61,7 @@ class _ListProductOfVendorState extends State<ListProductOfVendor> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: MyColorOld().background(),
       drawer: const NavDraw(),
       appBar: AppBar(
         title: const Text("List Products"),
@@ -87,14 +89,20 @@ class _ListProductOfVendorState extends State<ListProductOfVendor> {
                       ],
                     ),
                     trailing: ElevatedButton(
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      ViewProduct(myData: mydata![index])));
-                        },
-                        child: const Text("View")),
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    ViewProduct(myData: mydata![index])));
+                      },
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: MyColorOld().icon2()),
+                      child: const Text(
+                        "View",
+                        style: TextStyle(color: Colors.black),
+                      ),
+                    ),
                     // children: [
                     //   ListTile(
                     //     title: Text(mydata![index]["qty"].toString()),

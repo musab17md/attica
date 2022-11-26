@@ -110,7 +110,7 @@ class _ViewProductState extends State<ViewProduct> {
     String authEndpoint = "http://$urlMain/noti/${widget.myData["id"]}/";
 
     debugPrint(authEndpoint);
-    String body = jsonEncode({"status": "Approved"});
+    String body = jsonEncode({"status": "Accepted"});
     Response response = await ApiClient().patchJson(authEndpoint, body);
     debugPrint(response.toString());
     if (response.statusCode.toString()[0] == "2") {
@@ -119,7 +119,7 @@ class _ViewProductState extends State<ViewProduct> {
           builder: (context) {
             return AlertDialog(
               title: const Text("Result"),
-              content: const Text("Approved Successfully."),
+              content: const Text("Accepted Successfully."),
               actions: [
                 ElevatedButton(
                     onPressed: () {
@@ -162,13 +162,57 @@ class _ViewProductState extends State<ViewProduct> {
           builder: (context) {
             return AlertDialog(
               title: const Text("Result"),
-              content: const Text("Product Denied Successfully."),
+              content: const Text("Product Rejected Successfully."),
               actions: [
                 ElevatedButton(
                     onPressed: () {
                       Navigator.pushNamedAndRemoveUntil(
                           context, "/home", (route) => false);
-                      Navigator.pushNamed(context, "/listProd");
+                      Navigator.pushNamed(context, "/listAllProd");
+                    },
+                    child: const Text("Done"))
+              ],
+            );
+          });
+    } else {
+      showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: const Text("Failed"),
+              content: Text(response.body.toString()),
+              actions: [
+                ElevatedButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: const Text("Done"))
+              ],
+            );
+          });
+    }
+  }
+
+  postDecision(status) async {
+    // status is Declined or Approved
+    String authEndpoint = "http://$urlMain/noti/${widget.myData["id"]}/";
+    debugPrint(authEndpoint);
+    String body = jsonEncode({"status": status});
+    Response response = await ApiClient().patchJson(authEndpoint, body);
+    debugPrint(response.toString());
+    if (response.statusCode.toString()[0] == "2") {
+      showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: const Text("Result"),
+              content: Text("Product $status Successfully."),
+              actions: [
+                ElevatedButton(
+                    onPressed: () {
+                      Navigator.pushNamedAndRemoveUntil(
+                          context, "/home", (route) => false);
+                      Navigator.pushNamed(context, "/listAllProd");
                     },
                     child: const Text("Done"))
               ],
@@ -195,23 +239,70 @@ class _ViewProductState extends State<ViewProduct> {
 
   getButton(stat) {
     if (stat == "Rejected") {
-      if (context.watch<SwithUser>().currUser == "Admin") {
-        return ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.red,
-            ),
-            onPressed: () {},
-            child: const Text("Delete (dev)"));
-      }
-      return ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.red,
-          ),
-          onPressed: () {},
-          child: const Text("Edit (dev)"));
+      return const SizedBox(
+        height: 1,
+        width: 1,
+      );
+      // if (context.watch<SwithUser>().currUser == "Admin") {
+      //   return ElevatedButton(
+      //       style: ElevatedButton.styleFrom(
+      //         backgroundColor: Colors.red,
+      //       ),
+      //       onPressed: () {},
+      //       child: const Text("Delete (dev)"));
+      // }
+      // return ElevatedButton(
+      //     style: ElevatedButton.styleFrom(
+      //       backgroundColor: Colors.red,
+      //     ),
+      //     onPressed: () {},
+      //     child: const Text("Edit (dev)"));
       // NOTES: Avoid Edit for vendor during Pending Status, Because Vendor could have edited during Admin verify process.
     }
-    if (stat == "Pending" && context.watch<SwithUser>().currUser == "Admin") {
+
+    if (stat == "Pending" && context.watch<SwithUser>().currUser == "Vendor") {
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.red,
+              ),
+              onPressed: () {
+                postDecision("Declined");
+              },
+              child: const Text("Deny")),
+          const SizedBox(width: 40),
+          ElevatedButton(
+              onPressed: () {
+                postDecision("Approved");
+              },
+              child: const Text("Approve")),
+        ],
+      );
+    }
+    if (stat == "Accepted" && context.watch<SwithUser>().currUser == "Admin") {
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.red,
+              ),
+              onPressed: () {
+                postDecision("Rejected");
+              },
+              child: const Text("Deny")),
+          const SizedBox(width: 40),
+          ElevatedButton(
+              onPressed: () {
+                postDecision("Assigned");
+              },
+              child: const Text("Assign")),
+        ],
+      );
+    }
+    if (stat == "Approved" && context.watch<SwithUser>().currUser == "Admin") {
       return Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -228,7 +319,19 @@ class _ViewProductState extends State<ViewProduct> {
               onPressed: () {
                 postApprove();
               },
-              child: const Text("Approve")),
+              child: const Text("Accept")),
+        ],
+      );
+    }
+    if (stat == "Assigned" && context.watch<SwithUser>().currUser == "Admin") {
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          ElevatedButton(
+              onPressed: () {
+                postDecision("Completed");
+              },
+              child: const Text("Completed")),
         ],
       );
     } else {

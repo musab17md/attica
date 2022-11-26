@@ -1,9 +1,11 @@
+import 'package:ecom/constant/colors.dart';
+import 'package:ecom/constant/vars.dart';
+import 'package:provider/provider.dart';
+
 import '../constant/navbar.dart';
 import '../core/api_client.dart';
-import '../core/theme.dart';
 import '../register/login.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Settings extends StatefulWidget {
@@ -39,8 +41,9 @@ class _SettingsState extends State<Settings> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Provider.of<ThemeChanger>(context);
+    // final theme = Provider.of<ThemeChanger>(context);
     return Scaffold(
+      backgroundColor: MyColorOld().background(),
       drawer: const NavDraw(),
       appBar: AppBar(
         title: const Text("Settings"),
@@ -50,8 +53,12 @@ class _SettingsState extends State<Settings> {
         child: ListView(
           children: [
             Card(
+              color: MyColorOld().card(),
               child: ListTile(
-                leading: const Icon(Icons.brightness_medium_outlined),
+                leading: Icon(
+                  Icons.brightness_medium_outlined,
+                  color: MyColorOld().icon2(),
+                ),
                 title: const Text("Dark Theme"),
                 trailing: Switch(
                   value: isSwitched,
@@ -59,9 +66,11 @@ class _SettingsState extends State<Settings> {
                     setState(() {
                       isSwitched = value;
                     });
-                    isSwitched == false
-                        ? theme.setTheme(ThemeData.light())
-                        : theme.setTheme(ThemeData.dark());
+                    // context.read<DarkTheme>().switchMode(isSwitched);
+                    // isSwitched == false
+                    //     ? theme.setTheme(ThemeData.light())
+                    //     : theme.setTheme(ThemeData.dark());
+                    context.read<DarkMode>().setMode(isSwitched);
                     saveTheme(isSwitched);
                   },
                 ),
@@ -84,17 +93,26 @@ class _SettingsState extends State<Settings> {
             // ),
 
             Card(
+              color: MyColorOld().card(),
               child: ListTile(
-                leading: const Icon(Icons.lock_reset_outlined),
+                leading: Icon(
+                  Icons.lock_reset_outlined,
+                  color: MyColorOld().icon2(),
+                ),
                 title: const Text("Change your password"),
                 trailing: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: MyColorOld().icon2()),
                   onPressed: () {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
                             builder: ((context) => const PassChange())));
                   },
-                  child: const Text("Reset"),
+                  child: Text(
+                    "Reset",
+                    style: TextStyle(color: MyColorOld().text2()),
+                  ),
                 ),
               ),
             ),

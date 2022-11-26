@@ -29,6 +29,10 @@ class User(models.Model):
     type = models.CharField(max_length=50)
     username = models.CharField(max_length=50)
     password = models.CharField(max_length=50)
+    fullname = models.CharField(max_length=50)
+    companyname = models.CharField(max_length=50)
+    phone = models.CharField(max_length=50)
+    email = models.CharField(max_length=50)
     branch = models.CharField(max_length=50)
     agent = models.CharField(max_length=50)
     active = models.CharField(max_length=50)
@@ -128,3 +132,16 @@ class Gold(models.Model):
     class Meta:
         managed = True
         db_table = 'gold'
+
+
+class GoldDetail(models.Model):
+    hall_mark =  models.CharField(max_length=150)
+    net_weight =  models.CharField(max_length=150)
+    gross_weight =  models.CharField(max_length=150)
+    hall_mark_print =  models.CharField(max_length=150)
+    pack_916 = models.CharField(max_length=150)
+    product_id = models.CharField(max_length=150)
+
+    class Meta:
+        managed = True
+        db_table = 'gold_detail'

@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:ecom/screens/list_gold.dart';
+
 import '../constant/navbar.dart';
 import '../constant/urls.dart';
 import '../constant/vars.dart';
@@ -20,6 +22,7 @@ class _AddGoldRateState extends State<AddGoldRate> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: MyColorOld().background(),
       drawer: const NavDraw(),
       appBar: AppBar(
         title: const Text("Add Gold Rate"),
@@ -116,6 +119,8 @@ class _GoldRateWidgetState extends State<GoldRateWidget> {
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: MyColorOld().icon2()),
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
                     ScaffoldMessenger.of(context).showSnackBar(
@@ -129,7 +134,10 @@ class _GoldRateWidgetState extends State<GoldRateWidget> {
                     );
                   }
                 },
-                child: const Text("Submit"),
+                child: const Text(
+                  "Submit",
+                  style: TextStyle(color: Colors.black),
+                ),
               ),
             ),
             const SizedBox(
@@ -149,6 +157,35 @@ class _GoldRateWidgetState extends State<GoldRateWidget> {
             //       clearPrefs();
             //     },
             //     child: const Text("Clear")),
+            const SizedBox(
+              height: 20,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Container(
+                  width: 100,
+                  decoration: const BoxDecoration(
+                    border: Border(
+                      bottom: BorderSide(color: Colors.grey, width: 1.0),
+                    ),
+                  ),
+                ),
+                const Text(
+                  "Your last 3 entries",
+                  style: TextStyle(color: Colors.grey),
+                ),
+                Container(
+                  width: 100,
+                  decoration: const BoxDecoration(
+                    border: Border(
+                      bottom: BorderSide(color: Colors.grey, width: 1.0),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            const AllGoldRates(),
           ],
         ),
       ),

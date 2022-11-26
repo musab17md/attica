@@ -444,6 +444,8 @@ class _AddImageWidgetState extends State<AddImageWidget> {
                     SizedBox(
                       width: double.infinity,
                       child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.grey[700]),
                         onPressed: () {
                           if (_formKey.currentState!.validate()) {
                             // ScaffoldMessenger.of(context).showSnackBar(
@@ -474,14 +476,14 @@ class _AddImageWidgetState extends State<AddImageWidget> {
                         child: Text((progress == "") ? "Send Data" : progress),
                       ),
                     ),
-                    ElevatedButton(
-                        onPressed: () {
-                          // clearImage();
-                          // ApiClient().getVendorList();
-                          // getCurrentUserId();
-                          debugPrint(_selectedVendor.toString());
-                        },
-                        child: const Text("Test")),
+                    // ElevatedButton(
+                    //     onPressed: () {
+                    //       // clearImage();
+                    //       // ApiClient().getVendorList();
+                    //       // getCurrentUserId();
+                    //       debugPrint(_selectedVendor.toString());
+                    //     },
+                    //     child: const Text("Test")),
                     const SizedBox(
                       height: 15,
                     ),
@@ -530,6 +532,8 @@ class _AddImageWidgetState extends State<AddImageWidget> {
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.grey[700]),
                     onPressed: () {
                       loadProdPic1();
                     },
@@ -593,6 +597,8 @@ class _AddImageWidgetState extends State<AddImageWidget> {
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.grey[700]),
                     onPressed: () {
                       loadProdPic2();
                     },
@@ -656,6 +662,8 @@ class _AddImageWidgetState extends State<AddImageWidget> {
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.grey[700]),
                     onPressed: () {
                       loadProdPic3();
                     },
@@ -719,6 +727,8 @@ class _AddImageWidgetState extends State<AddImageWidget> {
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.grey[700]),
                     onPressed: () {
                       loadProdVideo();
                     },
@@ -782,6 +792,8 @@ class _AddImageWidgetState extends State<AddImageWidget> {
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.grey[700]),
                     onPressed: () {
                       loadModal1();
                     },
@@ -845,6 +857,8 @@ class _AddImageWidgetState extends State<AddImageWidget> {
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.grey[700]),
                     onPressed: () {
                       loadModal2();
                     },

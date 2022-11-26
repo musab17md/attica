@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:ecom/constant/vars.dart';
+
 import '../constant/navbar.dart';
 import '../screens/list_img_view.dart';
 import 'package:flutter/material.dart';
@@ -66,6 +68,7 @@ class _ListPhotoByIDState extends State<ListPhotoByID> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: MyColorOld().background(),
       drawer: const NavDraw(),
       appBar: AppBar(
         title: const Text("List Photos"),
@@ -98,6 +101,8 @@ class _ListPhotoByIDState extends State<ListPhotoByID> {
                                           myData: mydata![index],
                                         ))));
                           },
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.grey[700]),
                           child: const Text("View"),
                         ),
                       ),

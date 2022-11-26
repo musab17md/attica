@@ -13,7 +13,9 @@ urlpatterns = [
     path('vendors/', views.vendors.as_view(), name="vendors"),
     
     path('', views.home, name="home"),
-    path('gold/', views.metal_get, name="gold"),
+    path('gold/', views.metal_list_create.as_view(), name="gold"),
+    path('gold/<int:vendor_id>/', views.metal_get.as_view(), name="gold_id"),
+    # path('gold/', views.metal_get, name="gold"),
     # path('gold/<int:vendor_id>/', views.metal_retrive.as_view(), name="gold"),
     path('noti/', views.api_noti.as_view(), name="noti"),
     path('noti/vendor/<slug:vendor_id>/', views.noti_vendor.as_view(), name="noti_vendor"),

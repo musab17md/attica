@@ -5,10 +5,10 @@ class GraphView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.grey[800],
-      ),
+    return SizedBox(
+      // decoration: BoxDecoration(
+      //   color: Colors.grey[800],
+      // ),
       width: double.infinity,
       height: 300,
       child: Stack(
@@ -16,11 +16,11 @@ class GraphView extends StatelessWidget {
           Container(
             child: Column(
               children: const [
-                GraphColumn(amt: "\$2,000"),
-                GraphColumn(amt: "\$1,500"),
-                GraphColumn(amt: "\$1,000"),
-                GraphColumn(amt: "\$500"),
-                GraphColumn(amt: "\$0"),
+                GraphColumn(amt: "400"),
+                GraphColumn(amt: "200"),
+                GraphColumn(amt: "100"),
+                GraphColumn(amt: "50"),
+                GraphColumn(amt: "0"),
               ],
             ),
           ),
@@ -78,11 +78,11 @@ class GraphView extends StatelessWidget {
                       Container(
                         height: 10,
                         width: 10,
-                        decoration: BoxDecoration(
-                          borderRadius: const BorderRadius.all(
+                        decoration: const BoxDecoration(
+                          borderRadius: BorderRadius.all(
                             Radius.circular(5.0),
                           ),
-                          color: Colors.grey[600],
+                          color: Color.fromARGB(255, 232, 80, 92),
                         ),
                       ),
                       const SizedBox(
@@ -151,7 +151,7 @@ class GraphRow extends StatelessWidget {
                 width: lineWidth,
                 height: lineHeight1,
                 decoration: BoxDecoration(
-                  color: Colors.grey[600],
+                  color: const Color.fromARGB(255, 232, 80, 92),
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(lineRadius),
                     topRight: Radius.circular(lineRadius),

@@ -6,14 +6,14 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:double_back_to_close_app/double_back_to_close_app.dart';
 
-class MyHome extends StatefulWidget {
-  const MyHome({super.key});
+class MyHome2 extends StatefulWidget {
+  const MyHome2({super.key});
 
   @override
-  State<MyHome> createState() => _MyHomeState();
+  State<MyHome2> createState() => _MyHome2State();
 }
 
-class _MyHomeState extends State<MyHome> {
+class _MyHome2State extends State<MyHome2> {
   static const _actionTitles = ['Create Post', 'Upload Photo', 'Upload Video'];
 
   void _showAction(BuildContext context, int index) {

@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import '../constant/navbar.dart';
+import '../constant/vars.dart';
 import '../core/api_client.dart';
 import 'package:flutter/material.dart';
 import '../constant/vars.dart' as vars;
@@ -9,15 +10,23 @@ import 'package:photo_view/photo_view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
+import '../widgets/form_dropdown.dart';
+import '../widgets/form_static_text.dart';
+import '../widgets/form_text.dart';
+
 class AddProduct4 extends StatelessWidget {
   const AddProduct4({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: MyColorOld().background(),
       drawer: const NavDraw(),
       appBar: AppBar(
-        title: const Text("Add Product"),
+        title: Text(
+          "Add Product",
+          style: TextStyle(color: MyColorOld().icon2()),
+        ),
       ),
       body: const FormWidget(),
     );
@@ -183,6 +192,11 @@ class _FormWidgetState extends State<FormWidget> {
   }
 
   submitForm() async {
+    if (_selectedPhotoId == "") {
+      selectImageDialog();
+      return;
+    }
+    debugPrint("AddProd4: submitform > Posting");
     List user = await getUser();
     Map<String, String> body = {
       "product_name": _productNameController.text,
@@ -219,7 +233,69 @@ class _FormWidgetState extends State<FormWidget> {
       http.Response response2 = await ApiClient()
           .patchJson("http://$urlMain/pics/$_selectedPhotoId/", body2);
       debugPrint("AddProd4: Pic Assigned statuscode > ${response2.statusCode}");
+      if (response2.statusCode.toString()[0] == "2") {
+        successDialog();
+      } else {
+        debugPrint("An Error Occured");
+        debugPrint("AddProd4: submitForm > response: ${response.body}");
+        debugPrint("AddProd4: submitForm > response2: ${response2.body}");
+        errorDialog();
+      }
     }
+  }
+
+  Future<dynamic> selectImageDialog() {
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: const Text("Error"),
+            content: const Text("Please select an Image"),
+            actions: [
+              ElevatedButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Text("Okay"))
+            ],
+          );
+        });
+  }
+
+  Future<dynamic> errorDialog() {
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: const Text("Failed"),
+            content: const Text("Product submission failed"),
+            actions: [
+              ElevatedButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Text("Back"))
+            ],
+          );
+        });
+  }
+
+  Future<dynamic> successDialog() {
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: const Text("Success"),
+            content: const Text("Product submitted successfully"),
+            actions: [
+              ElevatedButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Text("Done"))
+            ],
+          );
+        });
   }
 
   @override
@@ -285,7 +361,10 @@ class _FormWidgetState extends State<FormWidget> {
           children: [
             SizedBox(height: paddingHeight),
             MyTextFormField(
-                name: "Product Name", controller: _productNameController),
+              name: "Product Name",
+              controller: _productNameController,
+              txtType: TextInputType.text,
+            ),
             SizedBox(height: paddingHeight),
             MyDropdownField(
               name: "Select Metal",
@@ -301,15 +380,29 @@ class _FormWidgetState extends State<FormWidget> {
               setType: 'ornament',
             ),
             SizedBox(height: paddingHeight),
-            MyTextFormField(name: "Purity %", controller: _purityController),
-            SizedBox(height: paddingHeight),
-            MyTextFormField(name: "Rate", controller: _rateController),
+            MyTextFormField(
+              name: "Purity %",
+              controller: _purityController,
+              txtType: TextInputType.number,
+            ),
             SizedBox(height: paddingHeight),
             MyTextFormField(
-                name: "Gross Weight", controller: _grossWeightController),
+              name: "Rate",
+              controller: _rateController,
+              txtType: TextInputType.number,
+            ),
             SizedBox(height: paddingHeight),
             MyTextFormField(
-                name: "Stone Weight", controller: _stoneWeightController),
+              name: "Gross Weight",
+              controller: _grossWeightController,
+              txtType: TextInputType.number,
+            ),
+            SizedBox(height: paddingHeight),
+            MyTextFormField(
+              name: "Stone Weight",
+              controller: _stoneWeightController,
+              txtType: TextInputType.number,
+            ),
             SizedBox(height: paddingHeight),
             // MyTextFormField(
             //     name: "Net Weight", controller: _netWeightController),
@@ -324,13 +417,22 @@ class _FormWidgetState extends State<FormWidget> {
             ),
             SizedBox(height: paddingHeight),
             MyTextFormField(
-                name: "Making Charge %", controller: _makingChargeController),
+              name: "Making Charge %",
+              controller: _makingChargeController,
+              txtType: TextInputType.number,
+            ),
             SizedBox(height: paddingHeight),
             MyTextFormField(
-                name: "Wastage Charge %", controller: _wastageChargeController),
+              name: "Wastage Charge %",
+              controller: _wastageChargeController,
+              txtType: TextInputType.number,
+            ),
             SizedBox(height: paddingHeight),
             MyTextFormField(
-                name: "Stone Charge", controller: _stoneChargeController),
+              name: "Stone Charge",
+              controller: _stoneChargeController,
+              txtType: TextInputType.number,
+            ),
             SizedBox(height: paddingHeight),
             // MyTextFormField(
             //     name: "Total Amount", controller: _totalAmountController),
@@ -347,7 +449,11 @@ class _FormWidgetState extends State<FormWidget> {
               setType: 'day',
             ),
             SizedBox(height: paddingHeight),
-            MyTextFormField(name: "Quantity", controller: _quantityController),
+            MyTextFormField(
+              name: "Quantity",
+              controller: _quantityController,
+              txtType: TextInputType.number,
+            ),
             SizedBox(height: paddingHeight),
             selectPhoto(),
             SizedBox(height: paddingHeight),
@@ -356,11 +462,13 @@ class _FormWidgetState extends State<FormWidget> {
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: MyColorOld().icon2()),
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Processing Data')),
-                    );
+                    // ScaffoldMessenger.of(context).showSnackBar(
+                    //   const SnackBar(content: Text('Processing Data')),
+                    // );
                     submitForm();
                   } else {
                     ScaffoldMessenger.of(context).showSnackBar(
@@ -369,29 +477,32 @@ class _FormWidgetState extends State<FormWidget> {
                     );
                   }
                 },
-                child: const Text("Send Data"),
+                child: const Text(
+                  "Send Data",
+                  style: TextStyle(color: Colors.black),
+                ),
               ),
             ),
             const SizedBox(height: 50),
-            ElevatedButton(
-                onPressed: () {
-                  debugPrint(_productNameController.text);
-                  debugPrint(dropDownObj._metal);
-                  debugPrint(dropDownObj._ornament);
-                  debugPrint(_purityController.text);
-                  debugPrint(_rateController.text);
-                  debugPrint(_grossWeightController.text);
-                  debugPrint(_stoneWeightController.text);
-                  debugPrint(_netWeightValue.toString());
-                  debugPrint(_netAmountValue.toString());
-                  debugPrint(_makingChargeController.text);
-                  debugPrint(_wastageChargeController.text);
-                  debugPrint(_stoneChargeController.text);
-                  debugPrint(_totalAmountValue.toString());
-                  debugPrint(dropDownObj._days);
-                  debugPrint(_quantityController.text);
-                },
-                child: const Text("Test")),
+            // ElevatedButton(
+            //     onPressed: () {
+            //       debugPrint(_productNameController.text);
+            //       debugPrint(dropDownObj._metal);
+            //       debugPrint(dropDownObj._ornament);
+            //       debugPrint(_purityController.text);
+            //       debugPrint(_rateController.text);
+            //       debugPrint(_grossWeightController.text);
+            //       debugPrint(_stoneWeightController.text);
+            //       debugPrint(_netWeightValue.toString());
+            //       debugPrint(_netAmountValue.toString());
+            //       debugPrint(_makingChargeController.text);
+            //       debugPrint(_wastageChargeController.text);
+            //       debugPrint(_stoneChargeController.text);
+            //       debugPrint(_totalAmountValue.toString());
+            //       debugPrint(dropDownObj._days);
+            //       debugPrint(_quantityController.text);
+            //     },
+            //     child: const Text("Test")),
           ],
         ));
   }
@@ -432,54 +543,76 @@ class _FormWidgetState extends State<FormWidget> {
                                   future: getPhotographerImages(),
                                   builder: (context, snapshot) {
                                     if (snapshot.hasData) {
-                                      return ListView.builder(
-                                          itemCount: mydata.length,
-                                          itemBuilder: (BuildContext context,
-                                              int index) {
-                                            debugPrint(
-                                                "future built get photos : $mydata");
-                                            return Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              child: GestureDetector(
-                                                onTap: () {
-                                                  _selectedPhotoId = mydata[0]
-                                                          ["id"]
-                                                      .toString();
-                                                  _selectedPhotoUrl =
-                                                      mydata[index]["model1"];
-                                                  setState(() {});
-                                                  Navigator.pop(context);
-                                                },
-                                                child: Card(
-                                                  child: Column(
-                                                    children: [
-                                                      Text(
-                                                          "Product id #${mydata[index]["id"]}"),
-                                                      Text(
-                                                          "For: Vendor #${mydata[index]["vendor"]}"),
-                                                      Text(
-                                                          "By: Photographer #${mydata[index]["photographer_id"]}"),
-                                                      Text(
-                                                          "Status: ${mydata[index]["status"]}"),
-                                                      Text(
-                                                          "Date: ${mydata[index]["date"]}"),
-                                                      SizedBox(
-                                                        height: 200,
-                                                        width: 200,
-                                                        child: PhotoView(
-                                                          imageProvider:
-                                                              NetworkImage(
-                                                                  mydata[index][
-                                                                      "model1"]),
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
+                                      return mydata.isEmpty
+                                          ? const Padding(
+                                              padding: EdgeInsets.all(8.0),
+                                              child: Center(
+                                                  child: Text(
+                                                'No images found, Please request photographer to upload images.',
+                                                style: TextStyle(
+                                                  color: Colors.amber,
+                                                  shadows: [
+                                                    Shadow(
+                                                        offset:
+                                                            Offset(2.0, 2.0),
+                                                        blurRadius: 8.0,
+                                                        color: Colors.red)
+                                                  ],
                                                 ),
-                                              ),
-                                            );
-                                          });
+                                              )),
+                                            )
+                                          : ListView.builder(
+                                              itemCount: mydata.length,
+                                              itemBuilder:
+                                                  (BuildContext context,
+                                                      int index) {
+                                                debugPrint(
+                                                    "future built get photos : $mydata");
+
+                                                return Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(8.0),
+                                                  child: GestureDetector(
+                                                    onTap: () {
+                                                      _selectedPhotoId =
+                                                          mydata[0]["id"]
+                                                              .toString();
+                                                      _selectedPhotoUrl =
+                                                          mydata[index]
+                                                              ["model1"];
+                                                      setState(() {});
+                                                      Navigator.pop(context);
+                                                    },
+                                                    child: Card(
+                                                      child: Column(
+                                                        children: [
+                                                          Text(
+                                                              "Product id #${mydata[index]["id"]}"),
+                                                          Text(
+                                                              "For: Vendor #${mydata[index]["vendor"]}"),
+                                                          Text(
+                                                              "By: Photographer #${mydata[index]["photographer_id"]}"),
+                                                          Text(
+                                                              "Status: ${mydata[index]["status"]}"),
+                                                          Text(
+                                                              "Date: ${mydata[index]["date"]}"),
+                                                          SizedBox(
+                                                            height: 200,
+                                                            width: 200,
+                                                            child: PhotoView(
+                                                              imageProvider:
+                                                                  NetworkImage(mydata[
+                                                                          index]
+                                                                      [
+                                                                      "model1"]),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ),
+                                                );
+                                              });
                                     }
 
                                     return const Center(
@@ -488,7 +621,12 @@ class _FormWidgetState extends State<FormWidget> {
                             });
                       }
                     },
-                    child: const Text("Choose File"),
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: MyColorOld().icon2()),
+                    child: const Text(
+                      "Choose File",
+                      style: TextStyle(color: Colors.black),
+                    ),
                   ),
                 ),
               ),
@@ -526,136 +664,6 @@ class _FormWidgetState extends State<FormWidget> {
           ),
         ),
       ],
-    );
-  }
-}
-
-class MyTextFormField extends StatelessWidget {
-  final String name;
-  final TextEditingController controller;
-
-  const MyTextFormField(
-      {super.key, required this.name, required this.controller});
-
-  @override
-  Widget build(BuildContext context) {
-    return TextFormField(
-      controller: controller,
-      enableInteractiveSelection: false,
-      decoration: InputDecoration(
-        label: Text(name),
-        border: const OutlineInputBorder(),
-      ),
-      keyboardType: TextInputType.number,
-      textInputAction: TextInputAction.next,
-      validator: (value) {
-        if (value == null || value.isEmpty) {
-          return 'Please enter some text';
-        }
-        return null;
-      },
-    );
-  }
-}
-
-class StaticFormField extends StatelessWidget {
-  const StaticFormField({super.key, required this.title, required this.value});
-  final String title;
-  final String value;
-
-  @override
-  Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Padding(
-          padding: const EdgeInsets.only(top: 8.0),
-          child: Container(
-            width: double.infinity,
-            decoration: BoxDecoration(
-              border: Border.all(color: Colors.grey),
-              borderRadius: const BorderRadius.all(Radius.circular(4)),
-            ),
-            child: Padding(
-              padding:
-                  const EdgeInsets.symmetric(vertical: 20.0, horizontal: 10.0),
-              child: Text(value),
-            ),
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(left: 10.0, top: 2.0),
-          child: Container(
-            decoration: const BoxDecoration(color: Colors.white),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 6.0),
-              child: Text(
-                title,
-                style: TextStyle(
-                  fontSize: 11,
-                  color: Colors.grey[700],
-                ),
-              ),
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-class MyDropdownField extends StatefulWidget {
-  final String name;
-  final List<String> valueList;
-  DropdownValue obj;
-  final String setType;
-  MyDropdownField(
-      {super.key,
-      required this.name,
-      required this.valueList,
-      required this.obj,
-      required this.setType});
-
-  @override
-  State<MyDropdownField> createState() => _MyDropdownFieldState();
-}
-
-class _MyDropdownFieldState extends State<MyDropdownField> {
-  final dropdownState = GlobalKey<FormFieldState>();
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      width: double.infinity,
-      child: DropdownButtonFormField(
-        key: dropdownState,
-        hint: Text(widget.name),
-        decoration: const InputDecoration(
-          border: OutlineInputBorder(),
-        ),
-        items: widget.valueList.map<DropdownMenuItem<String>>((String value) {
-          return DropdownMenuItem<String>(
-            value: value,
-            child: Text(value),
-          );
-        }).toList(),
-        onChanged: (value) {
-          if (widget.setType == "day") {
-            widget.obj.setDay(value);
-          }
-          if (widget.setType == "metal") {
-            widget.obj.setMetal(value);
-          }
-          if (widget.setType == "ornament") {
-            widget.obj.setOrnament(value);
-          }
-        },
-        validator: (value) {
-          if (value == null || value.isEmpty) {
-            return 'Please enter some text';
-          }
-          return null;
-        },
-      ),
     );
   }
 }

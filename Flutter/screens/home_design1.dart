@@ -2,6 +2,8 @@ import '../constant/navbar.dart';
 import '../widgets/banner_slider.dart';
 import 'package:flutter/material.dart';
 
+import '../widgets/shortcut_icons.dart';
+
 class MyHome extends StatelessWidget {
   const MyHome({super.key});
 
@@ -48,7 +50,7 @@ class _MainHomeState extends State<MainHome> {
         const SizedBox(height: 10),
         const BannerView2(),
         const SizedBox(height: 20),
-        const ShortcutIconBar(),
+        const ShortcutIconBar(userdetail: ["", "Design"]),
         const SizedBox(height: 20),
         Padding(
           padding: const EdgeInsets.all(8.0),
@@ -97,47 +99,6 @@ class _MainHomeState extends State<MainHome> {
           ),
         )
       ],
-    );
-  }
-}
-
-class ShortcutIconBar extends StatelessWidget {
-  const ShortcutIconBar({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-        iconButtons(Icons.home, "Home", context),
-        iconButtons(Icons.local_shipping, "Shipping", context),
-        iconButtons(Icons.account_balance_outlined, "Balance", context),
-        iconButtons(Icons.airplay_rounded, "Product", context),
-      ],
-    );
-  }
-
-  Widget iconButtons(IconData iconName, String name, context) {
-    return Card(
-      child: Container(
-        // decoration: BoxDecoration(
-        //     shape: BoxShape.circle, color: Theme.of(context).backgroundColor),
-        child: Padding(
-          padding: const EdgeInsets.all(15.0),
-          child: Column(
-            children: [
-              Icon(
-                iconName,
-                color: Colors.grey[700],
-              ),
-              Text(
-                name,
-                style: TextStyle(fontSize: 12, color: Colors.grey[600]),
-              )
-            ],
-          ),
-        ),
-      ),
     );
   }
 }

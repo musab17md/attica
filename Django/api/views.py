@@ -20,39 +20,69 @@ def home(request):
     return render(request, 'main.html')
 
 
-class metal_retrive(generics.RetrieveUpdateAPIView):
-    serializer_class = GoldSerilizer
-    queryset = Gold.objects.all()
-    lookup_field = "vendor_id"
-
-
-# class metal_create(generics.CreateAPIView):
+# class metal_retrive(generics.RetrieveUpdateAPIView):
 #     serializer_class = GoldSerilizer
 #     queryset = Gold.objects.all()
-@api_view(['GET', 'POST'])
-def metal_get(request):
-    # if request.method == 'POST':
-    print(request.data)
-    print(type(request.data))
-    print(request.data["vendor_id"])
-    if "vendor" in request.data:
-        try:
-            print("vend exists")
-            gold = Gold.objects.get(vendor_id=request.data["vendor_id"])
-            gold.metal = request.data["metal"]
-            gold.rate = request.data["rate"]
-            gold.vendor = request.data["vendor"]
-            gold.time = request.data["time"]
-            gold.date = request.data["date"]
-            gold.save()
-            return Response({"Rate":"added"})
-        except:
-            return Response({"Rate":"An error occured"})
-    else:
-        print("not exists")
-        gold, created = Gold.objects.get_or_create(vendor_id=request.data["vendor_id"])
-        serializer = GoldSerilizer(gold)
-        return Response(serializer.data)
+#     lookup_field = "vendor_id"
+
+
+def vendors():
+    user = User.objects.filter(type="Vendor")
+    gold_rates = []
+    for u in user:
+        g = Gold.objects.filter(vendor=u.username).first()
+        if g is not None:
+            gold_rates.append(g)
+    
+    for gr in gold_rates:
+        print(gr.__dict__)
+    return gold_rates
+
+
+class metal_list_create(generics.ListCreateAPIView):
+    serializer_class = GoldSerilizer
+    queryset = Gold.objects.all()
+    
+    # def get_queryset(self):
+    #     gold_rates = vendors()
+        # print(gold_rates)
+        # return Gold.objects.filter(vendor_id = "3")
+        # return gold_rates
+
+
+class metal_get(generics.ListAPIView):
+    serializer_class = GoldSerilizer
+    queryset = Gold.objects.all()
+    
+    def get_queryset(self):
+        vendor_id = self.kwargs['vendor_id']
+        return Gold.objects.filter(vendor_id = vendor_id)
+
+
+# @api_view(['GET', 'POST'])
+# def metal_get(request):
+#     # if request.method == 'POST':
+#     print(request.data)
+#     print(type(request.data))
+#     print(request.data["vendor_id"])
+#     if "vendor" in request.data:
+#         try:
+#             print("vend exists")
+#             gold = Gold.objects.get(vendor_id=request.data["vendor_id"])
+#             gold.metal = request.data["metal"]
+#             gold.rate = request.data["rate"]
+#             gold.vendor = request.data["vendor"]
+#             gold.time = request.data["time"]
+#             gold.date = request.data["date"]
+#             gold.save()
+#             return Response({"Rate":"added"})
+#         except:
+#             return Response({"Rate":"An error occured"})
+#     else:
+#         print("not exists")
+#         gold, created = Gold.objects.get_or_create(vendor_id=request.data["vendor_id"])
+#         serializer = GoldSerilizer(gold)
+#         return Response(serializer.data)
 
     # if request.method == 'GET':
     #     snippets = Snippet.objects.all()

@@ -22,3 +22,15 @@ class CurrentUser with ChangeNotifier {
     notifyListeners();
   }
 }
+
+// class DarkTheme with ChangeNotifier {
+//   bool? _darkMode;
+//   DarkTheme(this._darkMode);
+
+//   bool? get darkMode => _darkMode;
+
+//   void switchMode(mode) {
+//     _darkMode = mode;
+//     notifyListeners();
+//   }
+// }
