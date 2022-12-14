@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+<title>Add Login</title>
+{% endblock %}
+
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row flex-nowrap">
+        {% include 'sidepaneluser.html' %}
+        <div class="col py-3">
+            {% include 'messages.html' %}
+            
+            <div class="container py-5">
+                <h3>Pending Sites</h3>
+
+                <div class="card mb-3">
+                <table class="table">
+                    <thead>
+                        <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">visit_by</th>
+                        <th scope="col">added_date</th>
+                        <th scope="col">name</th>
+                        <th scope="col">send otp</th>
+                        <th scope="col">address</th>
+                        <th scope="col">comment</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for p in pending %}
+                        <tr>
+                        <th scope="row">{{forloop.counter}}</th>
+                        <td>{{p.visit_by}}</td>
+                        <td>{{p.added_date}}</td>
+                        <td>{{p.name}}</td>
+                        <td><a href="/addsite1/{{p.number}}/" class="btn btn-outline-primary">{{p.number}}</a></td>
+                        <td>{{p.address}}</td>
+                        <td>{{p.comment}}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                </div>
+
+                
+                
+                <h3>Visited Sites</h3>
+                <div class="card mb-3">
+                <table class="table">
+                    <thead>
+                        <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">visit_by</th>
+                        <th scope="col">added_date</th>
+                        <th scope="col">name</th>
+                        <th scope="col">number</th>
+                        <th scope="col">address</th>
+                        <th scope="col">comment</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for p in visited %}
+                        <tr>
+                        <th scope="row">{{forloop.counter}}</th>
+                        <td>{{p.visit_by}}</td>
+                        <td>{{p.added_date}}</td>
+                        <td>{{p.name}}</td>
+                        <td>{{p.number}}</td>
+                        <td>{{p.address}}</td>
+                        <td>{{p.comment}}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                </div>
+
+            </div>
+            
+
+        </div>
+    </div>
+</div>
+
+
+
+{% endblock %}

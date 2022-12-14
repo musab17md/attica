@@ -1,0 +1,130 @@
+/* a {
+    text-decoration: none !important;
+    color: white !important;
+}
+
+.sidepanel {
+    max-width: 300px;
+    min-height: 100vh;
+    background-color: #212529;
+    float: left;
+    transition: margin 0.6s;
+    overflow: hidden;
+    position: relative;
+    z-index: 10;
+}
+
+.sidepanel>ul {
+    color: white;
+}
+
+.sidepanel>img {
+    margin: auto;
+    display: block;
+}
+
+.content {
+    padding-left: 300px;
+    background-color: white;
+    padding-top: 10px;
+}
+
+@media (max-width: 767px) {
+    .content {
+        padding-left: 0px;
+        padding-top: 70px;
+    }
+}
+
+@media (max-width: 767px) {
+    .sidepanel {
+        position: fixed;
+        margin-left: -300px;
+        min-height: calc(100vh - 60px);
+        top: 60px;
+    }
+}
+
+.topbar {
+    display: none;
+    width: 100%;
+    height: 60px;
+    background-color: #212529;
+    color: white;
+}
+
+@media (max-width: 767px) {
+    .topbar {
+        display: block;
+        position: fixed;
+        z-index: 10;
+    }
+}
+
+.show {
+    margin-left: 0px;
+}
+
+.navuser {
+    width: 300px;
+    position: absolute;
+    bottom: 0px;
+    color: white;
+    text-align: center;
+}
+
+.navuser>div> {
+    position: relative;
+}
+
+.navuser>div>.card {
+    position: absolute;
+    margin-left: 10%;
+    margin-right: 10%;
+    margin-bottom: 10px;
+    margin-top: 0px;
+    min-width: 200px;
+    color: white;
+    background-color: #343a40;
+}
+
+.navuser>div>.card>a {
+    text-align: left;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-left: 10px;
+}
+
+.navuser>div>div {
+    position: relative;
+    background-color: #212529;
+    padding-bottom: 10px;
+}
+
+.topbar>img {
+    margin: 5px;
+    width: 50px;
+    float: right;
+}
+
+.showcard {
+    margin-top: -150px !important;
+}
+
+.sidepanellinks {
+    color: white !important;
+}
+
+
+.sidepanellinks ul {
+    list-style-type: none;
+}
+
+.sidepanellinks li {
+    padding: 10px;
+}
+
+.sidepanellinks a {
+    text-decoration: none;
+    color: white;
+} */

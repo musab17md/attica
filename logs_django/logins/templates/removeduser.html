@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+<title>List user</title>
+{% endblock %}
+
+
+{% block content %}
+
+<div class="container-fluid">
+    <div class="row flex-nowrap">
+        {% include 'sidepanel.html' %}
+        <div class="col py-3">
+            {% include 'messages.html' %}
+            <div class="container py-5">
+                <h1>Active Users</h1>
+                <table class="table">
+                    <thead>
+                      <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Username</th>
+                        <th scope="col">First</th>
+                        <th scope="col">Last</th>
+                        <th scope="col">Mail</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Joined Date</th>
+                      </tr>
+                    </thead>
+                    <tbody class="table-group-divider">
+                        
+                        {% for u in users %}
+                        <tr>
+                            <th scope="row">{{ forloop.counter }}</th>
+                            <td>{{u.username}}</td>
+                            <td>{{u.first_name}}</td>
+                            <td>{{u.last_name}}</td>
+                            <td>{{u.email}}</td>
+                            <td><a href="/readd/{{u.id}}/" type="button" class="btn btn-primary">Re Add</a></td>
+                            <td>{{u.date_joined}}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                  </table>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

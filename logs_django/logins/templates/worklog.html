@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block title %}
+<title>List user</title>
+{% endblock %}
+
+{% block style %}
+<style>
+    .mail-icon {
+        width: 20px;
+        height: 20px;
+        margin-right: 5px;
+    margin-top: -2px;
+
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+    <div class="row flex-nowrap">
+        {% include 'sidepaneluser.html' %}
+        <div class="col py-3">
+            {% include 'messages.html' %}
+            <div class="card">
+                <div class="card-body">
+                    <div class="container py-5">
+                        <h1>Current Month</h1>
+                        <table class="table">
+                            <thead>
+                              <tr>
+                                <th scope="col">Date</th>
+                                <th scope="col">Login</th>
+                                <th scope="col">Logout</th>
+                              </tr>
+                            </thead>
+                            <tbody class="table-group-divider">
+                                
+                                {% for u in logs %}
+                                <tr>
+                                    <td>{{u.date}}</td>
+                                    <td>{{u.login}}</td>
+                                    <td>{{u.logout}}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                          </table>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- <div class="card">
+                <div class="card-body">
+                    <div class="container py-5">
+                        <h1>Sites</h1>
+                        <table class="table">
+                            <thead>
+                              <tr>
+                                <th scope="col">Date</th>
+                                <th scope="col">Place</th>
+                                <th scope="col">Time</th>
+                              </tr>
+                            </thead>
+                            <tbody class="table-group-divider">
+                                
+                                {% for u in inacitveuser %}
+                                <tr>
+                                    <td>{{u.username}}</td>
+                                    <td>{{u.first_name}}</td>
+                                    <td>{{u.first_name}}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                          </table>
+                    </div>
+                </div>
+            </div> -->
+
+
+
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

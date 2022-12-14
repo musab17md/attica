@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+<title>Add Login</title>
+{% endblock %}
+
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row flex-nowrap">
+        {% include 'sidepaneluser.html' %}
+        <div class="col py-3">
+            {% include 'messages.html' %}
+            
+            <div class="container py-5">
+                <h1>Controls</h1>
+                <p>Date : {{user.first.date}}</p>
+
+                {% if user.first.login == None %}
+                <a href="{% url 'addlogin' %}" class="btn btn-primary" type="submit">Login</a>
+                {% else %}
+                <p>logged in at {{user.first.login}}</p>
+                {% endif %}
+
+                {% if user.first.logout == None %}
+                <a href="{% url 'addlogout' %}" class="btn btn-primary" type="submit">Logout</a>
+                {% else %}
+                <p>logged out at {{user.first.logout}}</p>
+                {% endif %}
+
+            </div>
+            
+            <!-- <p>Date : {{user.first.date}}</p>
+            {% if user.first.logout != None %}
+            <p>logged out at {{user.first.logout}}</p> 
+            {% endif %} -->
+
+        </div>
+    </div>
+</div>
+{% endblock %}

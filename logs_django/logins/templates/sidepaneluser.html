@@ -1,0 +1,52 @@
+{% load static %}
+{% load usergroup %}
+
+<div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-dark sidenav">
+    <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
+
+        {% if request.user|has_group:'916_users' %}
+        <img class="align-items-center" style="width: calc(100% - 100px);" src="{% static 'images/attica_logo.png' %}">
+        {% endif %}
+        {% if request.user|has_group:'blueskys_users' %}
+        <img class="align-items-center" style="width: calc(100% - 100px);" src="{% static 'images/blueskys.png' %}">
+        {% endif %}
+
+        <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
+            <li class="nav-item">
+                <a href="{% url 'userlogs' %}" class="nav-link align-middle px-0">
+                    <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">Mark Attendance</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{% url 'worklog' %}" class="nav-link align-middle px-0">
+                    <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">Attendance History</span>
+                </a>
+            </li>
+            {% if request.user|has_group:'blueskys_users' %}
+            <li class="nav-item">
+                <a href="{% url 'listassignedsites' %}" class="nav-link align-middle px-0">
+                    <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">List Sites</span>
+                </a>
+            </li>
+            {% endif %}
+        </ul>
+        <hr>
+        <div class="dropdown pb-4">
+            <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+                <img src="{% static 'images/profilepic.png' %}" alt="hugenerd" width="30" height="30" class="rounded-circle">
+                <span class="d-none d-sm-inline mx-1">{{ request.user.get_full_name }}</span>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
+                <li><a class="dropdown-item" href="#">Settings</a></li>
+                <li><a class="dropdown-item" href="{% url 'home_user' %}">Profile</a></li>
+                <li>
+                    <hr class="dropdown-divider">
+                </li>
+                <li><a class="dropdown-item" href="{% url 'logout' %}">Sign out</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+
+

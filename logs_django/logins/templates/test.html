@@ -1,0 +1,141 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load usergroup %}
+
+{% block style %}
+{% endblock %}
+
+{% block content %}
+<div class="topbar">
+  <i onclick="myFunction()" class="bi bi-list" style="font-size: 30px; margin-left: 10px; top: 10px;"></i>
+  <!-- <div class="" style="float: right;">Navbar</div> -->
+  {% if request.user|has_group:'916_users' %}
+  <img src="{% static 'images/attica_logo.png' %}">
+  {% endif %}
+  {% if request.user|has_group:'blueskys_users' %}
+  <img src="{% static 'images/blueskys.png' %}">
+  {% endif %}
+</div>
+<!-- <div class="sidepanel" id="sidepanel">
+  {% if request.user|has_group:'916_users' %}
+  <img style="width: calc(100% - 100px);" src="{% static 'images/attica_logo.png' %}">
+  {% endif %}
+  {% if request.user|has_group:'blueskys_users' %}
+  <img style="width: calc(100% - 100px);" src="{% static 'images/blueskys.png' %}">
+  {% endif %}
+  <div class="sidepanellinks">
+    <ul>
+      {% if request.user|has_group:'admin_user' %}
+      <li><a href="{% url 'adduser' %}"><i class="bi bi-file-earmark-plus"></i> Add User</a></li>
+      <li><a href="{% url 'listuser' %}"><i class="bi bi-card-list"></i> List Users</a></li>
+      <li><a href="{% url 'listremoveduser' %}"><i class="bi bi-person-x"></i> Removed Users</a></li>
+      <li><a href="{% url 'assignsite' %}"><i class="bi bi-patch-check"></i> Assign Site Visit</a></li>
+      {% else %}
+      <li><a href="{% url 'userlogs' %}"><i class="bi bi-patch-check"></i> Mark Attendance</a></li>
+      <li><a href="{% url 'addsite1' %}"><i class="bi bi-building-add"></i> Add Site Visits</a></li>
+      <li><a href="{% url 'worklog' %}"><i class="bi bi-clock-history"></i> Attendance History</a></li>
+      <li><a href="{% url 'listassignedsites' %}"><i class="bi bi-card-list"></i> List Sites</a></li>
+      {% endif %}
+    </ul>
+  </div>
+  <div class="navuser">
+    <div>
+      <div class="card" id="showcard">
+        <a>Settings</a>
+        <a>Profile</a>
+        <hr style="margin: 0px;">
+        <a href="{% url 'logout' %}">Sign Out</a>
+      </div>
+      <div>
+      <a href="#" onclick="myFunction2()">
+        <img src="{% static 'images/profilepic.png' %}" alt="hugenerd" width="30" height="30" class="rounded-circle">
+        <span class="">{{ request.user.get_full_name }}</span>
+      </a>
+    </div>
+    </div>
+  </div>
+</div> -->
+
+<div class="offcanvas offcanvas-start text-bg-dark" id="demo">
+  <div class="offcanvas-header">
+    <h1 class="offcanvas-title">Heading</h1>
+    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"></button>
+  </div>
+  <div class="offcanvas-body">
+    <ul>
+      {% if request.user|has_group:'admin_user' %}
+      <li><a href="{% url 'adduser' %}"><i class="bi bi-file-earmark-plus"></i> Add User</a></li>
+      <li><a href="{% url 'listuser' %}"><i class="bi bi-card-list"></i> List Users</a></li>
+      <li><a href="{% url 'listremoveduser' %}"><i class="bi bi-person-x"></i> Removed Users</a></li>
+      <li><a href="{% url 'assignsite' %}"><i class="bi bi-patch-check"></i> Assign Site Visit</a></li>
+      {% else %}
+      <li><a href="{% url 'userlogs' %}"><i class="bi bi-patch-check"></i> Mark Attendance</a></li>
+      <li><a href="{% url 'addsite1' %}"><i class="bi bi-building-add"></i> Add Site Visits</a></li>
+      <li><a href="{% url 'worklog' %}"><i class="bi bi-clock-history"></i> Attendance History</a></li>
+      <li><a href="{% url 'listassignedsites' %}"><i class="bi bi-card-list"></i> List Sites</a></li>
+      {% endif %}
+    </ul>
+    <button type="button" class="btn btn-primary" data-bs-toggle="popover" title="Popover Header" data-bs-content="Some content inside the popover">
+      Toggle popover
+    </button>
+  </div>
+</div>
+
+
+<div class="content">
+  <div class="container-fluid">
+    
+      <div class="card">
+      <div class="row">
+          <div class="col-12 col-sm-12 col-md-12 col-lg-4 col-xl-4 col-xxl-4 p-4">
+              <div class="">
+                  <img class="img-fluid" src="{% static 'images/user-profile.jpg' %}" alt="">
+              </div>
+              <h5>work</h5>
+              <hr>
+              <h5>916 Digital Gold</h5>
+              <p>123, South Mugda<br>New York, 1214</p>
+              <h5>Unix</h5>
+              <p>123, South Mugda<br>New York, 1214</p>
+              <hr>
+              <h5>Skill</h5>
+              <p>UI/UX</p>
+              <p>Web Design</p>
+              <p>Wordpress</p>
+              <p>Magento</p>
+              <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#demo">
+                Open Offcanvas Sidebar
+              </button>
+              
+    <button type="button" class="btn btn-primary" data-bs-toggle="popover" title="Popover Header" data-bs-content="Some content inside the popover">
+      Toggle popover
+    </button>
+              
+
+          </div>
+          <div class="col-12 col-sm-12 col-lg-8 col-xl-8 col-xxl-8 p-4">
+              <h3>Mohammed Musab</h3>
+              <p>Web Developer</p>
+          </div>
+      </div>
+      </div>
+  </div>
+</div>
+
+<script>
+  function myFunction() {
+    var x = document.getElementById("sidepanel");
+    x.classList.toggle("show");
+  }
+  function myFunction2() {
+    var x = document.getElementById("showcard");
+    x.classList.toggle("showcard");
+  }
+
+  // var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
+  // var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+  //   return new bootstrap.Popover(popoverTriggerEl)
+  // })
+
+</script>
+{% endblock %}

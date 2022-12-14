@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+<title>Add Login</title>
+{% endblock %}
+
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row flex-nowrap">
+        {% include 'sidepanel.html' %}
+        <div class="col py-3">
+            {% include 'messages.html' %}
+            
+            <div class="container py-5">
+                <h1>Sites Visits</h1>
+
+                
+
+                <table class="table">
+                <thead>
+                    <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">user</th>
+                    <th scope="col">date</th>
+                    <th scope="col">place</th>
+                    <th scope="col">time</th>
+                    <th scope="col">number</th>
+                    <th scope="col">comment</th>
+                    <th scope="col">Assigned</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for s in sites %}
+                    <tr>
+                    <th scope="row">{{forloop.counter}}</th>
+                    <td>{{s.user}}</td>
+                    <td>{{s.date}}</td>
+                    <td>{{s.place}}</td>
+                    <td>{{s.time}}</td>
+                    <td>{{s.number}}</td>
+                    <td>{{s.comment}}</td>
+                    <td>{{s.visit_assign_id.username}}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+                </table>
+                
+                
+
+
+            </div>
+            
+
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+{% endblock %}

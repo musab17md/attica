@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+<title>Add Login</title>
+{% endblock %}
+
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row flex-nowrap">
+        {% include 'sidepaneluser.html' %}
+        <div class="col py-3">
+            {% include 'messages.html' %}
+            
+            
+
+            <div class="container py-5">
+                <h1>Controls</h1>
+                <a href="" class="btn btn-primary" type="submit">Login</a>
+                <a href="" class="btn btn-primary" type="submit">Logout</a>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+{% endblock %}
