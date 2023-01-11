@@ -1,0 +1,46 @@
+Container(
+                decoration: BoxDecoration(
+                    boxShadow: <BoxShadow>[
+                      BoxShadow(
+                          color: Colors.black54,
+                          blurRadius: 8.0,
+                          offset: const Offset(0.0, 0.75))
+                    ],
+                    color: kButton,
+                    borderRadius: const BorderRadius.all(Radius.circular(20))),);
+
+
+Card(
+      elevation: cardElevation,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(15.0),
+      ),);
+
+ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          shape: const StadiumBorder(),
+                          backgroundColor: kGold),
+                      onPressed: () {},
+                      child: Text(
+                        "Buy",
+                        style: TextStyle(
+                            kWhite,
+                            fontSize: 14.sp),
+                      ),
+                    )
+
+1. Login
+Number
+  isRegistered?
+    Otp
+      Login
+        mpin
+
+Enter Mobile Number
+Check if number is registered in database
+  Send Otp
+  login user
+
+Check if mpin is registered
+  ask mpin on every start up
+
